@@ -1,1 +1,17 @@
-
+[
+  {
+    "day": 1,
+    "fact": "Whale sharks are the largest sharks, growing up to 18 meters (59 feet) long.",
+    "image": "1_whale_shark.jpg"
+  },
+  {
+    "day": 2,
+    "fact": "Greenland sharks can live over 500 years — making them the longest-living vertebrate.",
+    "image": "2_greenland_shark.jpg"
+  },
+  {
+    "day": 3,
+    "fact": "Hammerhead sharks use their unique head shape to improve their vision and sense prey better.",
+    "image": "3_hammerhead.jpg"
+  }
+]

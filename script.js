@@ -1,30 +1,30 @@
-// Example fact + image data
-const facts = [
-  { fact: "Whale sharks are the largest sharks and can grow up to 18 meters long!", image: "images/1_whale_shark.jpg" },
-  { fact: "Greenland sharks can live over 400 years, making them the longest-living vertebrates.", image: "images/2_greenland_shark.jpg" },
-  { fact: "Hammerhead sharks use their wide heads to improve their vision and pin down stingrays.", image: "images/3_hammerhead.jpg" }
-];
+fetch('json/facts.json')
+  .then(response => response.json())
+  .then(data => {
+    const today = new Date();
+    const dayNumber = (today.getDate() % data.length) || 1;
+    const factToday = data.find(item => item.day === dayNumber);
 
-// Pick a fact by day number
-const today = new Date();
-const index = today.getDate() % facts.length;
-const factToday = facts[index];
+    document.getElementById("fact-text").textContent = factToday.fact;
+    document.getElementById("fact-image").src = `images/${factToday.image}`;
 
-// Load fact and image
-document.getElementById("fact-text").textContent = factToday.fact;
-document.getElementById("fact-image").src = factToday.image;
+    // Like button setup
+    const likeButton = document.getElementById("like-button");
+    const likeCount = document.getElementById("like-count");
+    let count = localStorage.getItem(`likes-${today.getDate()}`) || 0;
+    likeCount.textContent = count;
 
-// Like button count (localStorage demo)
-const likeButton = document.getElementById("like-button");
-const likeCount = document.getElementById("like-count");
-let count = localStorage.getItem(`likes-${today.getDate()}`) || 0;
-likeCount.textContent = count;
+    likeButton.addEventListener("click", () => {
+      if (localStorage.getItem(`liked-${today.getDate()}`)) return;
+      count++;
+      likeCount.textContent = count;
+      localStorage.setItem(`likes-${today.getDate()}`, count);
+      localStorage.setItem(`liked-${today.getDate()}`, true);
+      likeButton.style.color = "gold";
+    });
 
-likeButton.addEventListener("click", () => {
-  if (localStorage.getItem(`liked-${today.getDate()}`)) return; // Only like once per day
-  count++;
-  likeCount.textContent = count;
-  localStorage.setItem(`likes-${today.getDate()}`, count);
-  localStorage.setItem(`liked-${today.getDate()}`, true);
-  likeButton.style.color = "gold";
-});
+  })
+  .catch(error => {
+    document.getElementById("fact-text").textContent = "Couldn't load today's shark fact. Please try again later!";
+    console.error("Error loading facts:", error);
+  });

@@ -1,23 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Daily Shark Facts</title>
-  <link rel="stylesheet" href="styles.css">
-  <link rel="icon" type="image/png" href="images/sharkicon.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Daily Shark Facts</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'><text x='0' y='15' font-size='15'>🦈</text></svg>">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h1>Daily Shark Fact</h1>
-  <div id="fact-container">
-    <p id="fact-text">Loading fact...</p>
-    <img id="fact-image" src="" alt="Shark Image">
-  </div>
 
-  <div id="like-container">
-    <img id="like-icon" src="images/sharkicon.png" alt="Like Shark">
-    <span id="like-count">0</span>
-  </div>
+<header>
+    <h1>Daily Shark Facts</h1>
+</header>
 
-  <script src="script.js"></script>
+<div id="fact-container">
+    <h2>Shark Fact of the Day</h2>
+    <p id="fact-text">Loading...</p>
+    <img id="shark-img" src="" alt="Shark image" />
+    <button id="like-btn">Like 🦈</button>
+    <p id="like-count">0 Likes</p>
+</div>
+
+<footer>
+    <p>Made with love for sharks 🦈</p>
+</footer>
+
+<script src="script.js"></script>
+
 </body>
 </html>

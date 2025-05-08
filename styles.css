@@ -20,8 +20,8 @@ html, body {
 header {
     background-color: #006994;
     color: white;
-    padding: 20px;
-    font-size: 2em;
+    padding: 40px; /* Increased padding for more space */
+    font-size: 2.5em; /* Adjusted font size */
     text-align: center;
     width: 100%;
     border-bottom: 4px solid #004f6d;
@@ -36,22 +36,23 @@ main {
     text-align: center;
     max-width: 800px;
     width: 90%;
-    padding: 20px;
+    padding: 40px; /* Increased padding */
     background-color: white;
-    border-radius: 8px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 12px; /* Slightly larger border radius */
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2); /* Enhanced shadow for depth */
     margin: 20px auto;
 }
 
 h2 {
-    font-size: 2.5em;
+    font-size: 3em; /* Larger heading */
     color: #006994;
 }
 
 p {
-    font-size: 1.2em;
+    font-size: 1.4em; /* Slightly larger paragraph text */
     color: #555;
     margin-top: 20px;
+    line-height: 1.6; /* Increased line height */
 }
 
 #shark-img {
@@ -60,7 +61,8 @@ p {
     border-radius: 8px;
     margin-top: 20px;
     max-width: 600px;
-    border: 3px solid #006994;
+    border: 4px solid #006994; /* Thicker border */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Added shadow */
 }
 
 /* Like Button Styles */
@@ -68,11 +70,11 @@ button {
     background-color: #d3d3d3; /* Grey initially */
     color: white;
     font-size: 1.4em;
-    padding: 10px 20px;
+    padding: 15px 30px; /* Increased padding for better touch area */
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; /* Added box-shadow transition */
     margin-top: 15px;
     width: 60%;
     max-width: 300px;
@@ -83,11 +85,13 @@ button.gold {
 }
 
 button:hover {
+    background-color: #b0b0b0; /* Darker grey on hover */
     transform: scale(1.05);
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Shadow on hover */
 }
 
 button:disabled {
-    background-color: #d3d3d3;
+    opacity: 0.6; /* Make disabled button more transparent */
     cursor: not-allowed;
 }
 
@@ -103,7 +107,7 @@ button:disabled {
 footer {
     background-color: #006994;
     color: white;
-    padding: 10px;
+    padding: 20px; /* Increased padding */
     font-size: 1em;
     text-align: center;
     width: 100%;
@@ -112,11 +116,11 @@ footer {
 /* Responsive Design */
 @media (max-width: 768px) {
     h2 {
-        font-size: 2em;
+        font-size: 2.5em; /* Adjusted for smaller screens */
     }
 
     p {
-        font-size: 1em;
+        font-size: 1.1em; /* Adjusted for smaller screens */
     }
 
     button {

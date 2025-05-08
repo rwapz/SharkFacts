@@ -17,6 +17,7 @@ fetch('facts.json')
 // Like button functionality
 const likeButton = document.getElementById('like-btn');
 const likeCountDisplay = document.getElementById('like-count');
+let hasLiked = false; // Track if the user has liked
 
 // Fetch the global like count from the server
 fetch('https://example.com/api/likeCount')
@@ -28,18 +29,21 @@ fetch('https://example.com/api/likeCount')
 
 // Handle like button click
 likeButton.addEventListener('click', () => {
-    likeButton.classList.add('gold'); // Turn the button gold
-    likeButton.disabled = true; // Disable the button after liking
+    if (!hasLiked) {
+        hasLiked = true; // Mark as liked
+        likeButton.classList.add('gold'); // Turn the button gold
+        likeButton.disabled = true; // Disable the button after liking
 
-    // Send the like to the server
-    fetch('https://example.com/api/likeCount', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ increment: 1 })
-    })
-        .then(response => response.json())
-        .then(data => {
-            likeCountDisplay.innerText = `${data.likeCount} Likes`; // Update the global like count
+        // Send the like to the server
+        fetch('https://example.com/api/likeCount', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ increment: 1 })
         })
-        .catch(error => console.log('Error updating like count:', error));
+            .then(response => response.json())
+            .then(data => {
+                likeCountDisplay.innerText = `${data.likeCount} Likes`; // Update the global like count
+            })
+            .catch(error => console.log('Error updating like count:', error));
+    }
 });

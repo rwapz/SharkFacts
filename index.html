@@ -4,43 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Daily Shark Facts</title>
-  <link rel="icon" href="shark-icon.png" type="image/x-icon"> <!-- Replace with your shark icon -->
-  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="shark_icon.png" id="sharkFavicon">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    <h1>Welcome to Daily Shark Facts!</h1>
-    <p>Click the shark to like this fact and see how many others like it!</p>
-  </header>
-
-  <main>
-    <!-- Shark fact of the day -->
-    <section id="fact-of-the-day">
-      <h2 id="sharkFactTitle">Shark Fact of the Day</h2>
-      <p id="sharkFact">Did you know that whale sharks are the largest shark species, growing up to 18 meters (59 feet)?</p>
-      <button id="sharkButton">
-        🦈 <span id="sharkText">Like</span> <span id="counter">0</span>
-      </button>
-    </section>
-
-    <!-- Surprise Me! Button -->
-    <button id="randomFactButton">Surprise Me!</button>
-
-    <!-- Fact Archive Link -->
-    <section id="archive-link">
-      <a href="#">View Past Shark Facts</a>
-    </section>
-
-    <!-- Social Media Share -->
-    <section id="social-share">
-      <button id="shareButton">Share This Fact</button>
-    </section>
-  </main>
-
-  <footer>
-    <p>&copy; 2025 Daily Shark Facts</p>
-  </footer>
-
+  <h1>Welcome to Daily Shark Facts!</h1>
+  <div class="fact-box">
+    <h3 id="sharkFact"></h3>
+    <p id="sharkImage"></p>
+    <button id="like-button">Like this fact!</button>
+    <p id="likeCount"></p>
+  </div>
+  
   <script src="script.js"></script>
 </body>
 </html>

@@ -1,30 +1,37 @@
-fetch('json/facts.json')
+fetch('facts.json')
   .then(response => response.json())
   .then(data => {
     const today = new Date();
-    const dayNumber = (today.getDate() % data.length) || 1;
-    const factToday = data.find(item => item.day === dayNumber);
+    const dayOfYear = Math.floor(
+      (today - new Date(today.getFullYear(), 0, 0)) / 86400000
+    );
+    const factIndex = (dayOfYear - 1) % data.length;
+    const fact = data[factIndex];
 
-    document.getElementById("fact-text").textContent = factToday.fact;
-    document.getElementById("fact-image").src = `images/${factToday.image}`;
+    document.getElementById('fact-text').textContent = fact.fact;
+    document.getElementById('fact-image').src = `images/${fact.image}`;
 
-    // Like button setup
-    const likeButton = document.getElementById("like-button");
-    const likeCount = document.getElementById("like-count");
-    let count = localStorage.getItem(`likes-${today.getDate()}`) || 0;
+    const likeIcon = document.getElementById('like-icon');
+    const likeCount = document.getElementById('like-count');
+    const storageKey = `likes-day-${dayOfYear}`;
+
+    // Load previous like count
+    let count = localStorage.getItem(storageKey) || 0;
     likeCount.textContent = count;
 
-    likeButton.addEventListener("click", () => {
-      if (localStorage.getItem(`liked-${today.getDate()}`)) return;
+    // Like button
+    likeIcon.addEventListener('click', () => {
+      if (localStorage.getItem(`liked-${dayOfYear}`)) return;
+
       count++;
       likeCount.textContent = count;
-      localStorage.setItem(`likes-${today.getDate()}`, count);
-      localStorage.setItem(`liked-${today.getDate()}`, true);
-      likeButton.style.color = "gold";
-    });
+      localStorage.setItem(storageKey, count);
+      localStorage.setItem(`liked-${dayOfYear}`, 'true');
 
+      likeIcon.style.filter = 'hue-rotate(180deg)'; // shark turns goldish
+    });
   })
   .catch(error => {
-    document.getElementById("fact-text").textContent = "Couldn't load today's shark fact. Please try again later!";
-    console.error("Error loading facts:", error);
+    console.error('Error loading facts:', error);
+    document.getElementById('fact-text').textContent = "Couldn't load today's shark fact.";
   });

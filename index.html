@@ -2,20 +2,32 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Daily Shark Facts</title>
-  <link rel="icon" href="shark_icon.png" id="sharkFavicon">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Daily Shark Fact</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/png" href="images/sharkicon.png">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka&display=swap" rel="stylesheet">
 </head>
 <body>
-  <h1>Welcome to Daily Shark Facts!</h1>
+
+  <header>
+    <h1>Daily Shark Fact</h1>
+    <img src="images/sharkicon.png" alt="Shark Icon" class="header-icon">
+  </header>
+
   <div class="fact-box">
-    <h3 id="sharkFact"></h3>
-    <p id="sharkImage"></p>
-    <button id="like-button">Like this fact!</button>
-    <p id="likeCount"></p>
+    <h2 id="fact-text">Loading shark fact...</h2>
+    <img id="fact-image" src="" alt="Shark Image" class="fact-image">
+    <div class="like-section">
+      <span id="like-button" class="like-button">🦈</span>
+      <span id="like-count">0</span>
+    </div>
   </div>
-  
+
+  <footer>
+    <p>Made with love for sharks!</p>
+  </footer>
+
   <script src="script.js"></script>
 </body>
 </html>

@@ -1,55 +1,30 @@
-// Shark Fact of the Day
-let facts = [
-  "Did you know that whale sharks are the largest shark species, growing up to 18 meters (59 feet)?",
-  "Sharks have been around for over 400 million years, even before the dinosaurs!",
-  "Hammerhead sharks have unique head shapes that help them pin down stingrays.",
-  "The Greenland shark is the longest-living vertebrate, living up to 500 years!",
-  "Some sharks, like the epaulette shark, can walk on land for short distances in shallow water."
-];
+fetch('json/facts.json')
+  .then(response => response.json())
+  .then(data => {
+    const today = new Date();
+    const dayNumber = (today.getDate() % data.length) || 1;
+    const factToday = data.find(item => item.day === dayNumber);
 
-let likes = 0;
+    document.getElementById("fact-text").textContent = factToday.fact;
+    document.getElementById("fact-image").src = `images/${factToday.image}`;
 
-// Function to show a random shark fact
-function showRandomFact() {
-  const randomIndex = Math.floor(Math.random() * facts.length);
-  const fact = facts[randomIndex];
-  document.getElementById("sharkFact").textContent = fact;
-}
+    // Like button setup
+    const likeButton = document.getElementById("like-button");
+    const likeCount = document.getElementById("like-count");
+    let count = localStorage.getItem(`likes-${today.getDate()}`) || 0;
+    likeCount.textContent = count;
 
-// Initializing Shark Fact of the Day
-document.getElementById("sharkFact").textContent = facts[0];
+    likeButton.addEventListener("click", () => {
+      if (localStorage.getItem(`liked-${today.getDate()}`)) return;
+      count++;
+      likeCount.textContent = count;
+      localStorage.setItem(`likes-${today.getDate()}`, count);
+      localStorage.setItem(`liked-${today.getDate()}`, true);
+      likeButton.style.color = "gold";
+    });
 
-// Shark Button Functionality
-const sharkButton = document.getElementById('sharkButton');
-const counter = document.getElementById('counter');
-
-// Check if the user has already liked the fact
-if (localStorage.getItem('sharkLiked') === 'true') {
-  sharkButton.classList.add('liked');
-}
-
-// Click Event for Shark Button
-sharkButton.addEventListener('click', () => {
-  likes++;
-  counter.textContent = likes;
-
-  // Change button to gold
-  sharkButton.classList.add('liked');
-
-  // Store the fact that the user liked it (in localStorage for now)
-  localStorage.setItem('sharkLiked', 'true');
-});
-
-// Surprise Me Button
-const randomFactButton = document.getElementById("randomFactButton");
-randomFactButton.addEventListener("click", showRandomFact);
-
-// Social Share Button
-const shareButton = document.getElementById("shareButton");
-shareButton.addEventListener("click", () => {
-  const factToShare = document.getElementById("sharkFact").textContent;
-  const shareText = `Check out this cool shark fact: ${factToShare} #SharkFact #Sharks`;
-  const shareURL = encodeURIComponent(window.location.href);
-  
-  window.open(`https://twitter.com/intent/tweet?text=${shareText}&url=${shareURL}`, '_blank');
-});
+  })
+  .catch(error => {
+    document.getElementById("fact-text").textContent = "Couldn't load today's shark fact. Please try again later!";
+    console.error("Error loading facts:", error);
+  });

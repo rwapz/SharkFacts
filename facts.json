@@ -1,30 +1,17 @@
-fetch('json/facts.json')
-  .then(response => response.json())
-  .then(data => {
-    const today = new Date();
-    const dayNumber = (today.getDate() % data.length) || 1;
-    const factToday = data.find(item => item.day === dayNumber);
-
-    document.getElementById("fact-text").textContent = factToday.fact;
-    document.getElementById("fact-image").src = `images/${factToday.image}`;
-
-    // Like button setup
-    const likeButton = document.getElementById("like-button");
-    const likeCount = document.getElementById("like-count");
-    let count = localStorage.getItem(`likes-${today.getDate()}`) || 0;
-    likeCount.textContent = count;
-
-    likeButton.addEventListener("click", () => {
-      if (localStorage.getItem(`liked-${today.getDate()}`)) return;
-      count++;
-      likeCount.textContent = count;
-      localStorage.setItem(`likes-${today.getDate()}`, count);
-      localStorage.setItem(`liked-${today.getDate()}`, true);
-      likeButton.style.color = "gold";
-    });
-
-  })
-  .catch(error => {
-    document.getElementById("fact-text").textContent = "Couldn't load today's shark fact. Please try again later!";
-    console.error("Error loading facts:", error);
-  });
+[
+  {
+    "day": 1,
+    "fact": "Whale sharks are the largest sharks, growing up to 18 meters (59 feet) long.",
+    "image": "1_whale_shark.jpg"
+  },
+  {
+    "day": 2,
+    "fact": "Greenland sharks can live over 500 years — making them the longest-living vertebrate.",
+    "image": "2_greenland_shark.jpg"
+  },
+  {
+    "day": 3,
+    "fact": "Hammerhead sharks use their unique head shape to improve their vision and sense prey better.",
+    "image": "3_hammerhead.jpg"
+  }
+]

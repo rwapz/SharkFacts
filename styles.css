@@ -1,103 +1,42 @@
-/* Basic Reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-/* Body Styles */
 body {
   font-family: Arial, sans-serif;
-  background-color: #e5f5f6;
-  color: #333;
+  background-color: #e0f7fa;
   text-align: center;
+  padding: 50px;
+  color: #00796b;
+}
+
+.fact-box {
+  background-color: #ffffff;
   padding: 20px;
-}
-
-/* Header */
-header {
-  margin-bottom: 20px;
-}
-
-h1 {
-  font-size: 36px;
-}
-
-p {
-  font-size: 18px;
-}
-
-/* Shark Button Styling */
-#sharkButton {
-  font-size: 24px;
-  padding: 10px;
-  background-color: #f0f0f0;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  border-radius: 5px;
-}
-
-#sharkButton.liked {
-  color: gold;
-  background-color: #ffcc00;
-}
-
-#counter {
-  font-weight: bold;
-}
-
-/* Random Fact Button */
-#randomFactButton {
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  font-size: 18px;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 20px;
-}
-
-#randomFactButton:hover {
-  background-color: #45a049;
-}
-
-/* Fact Archive Link */
-#archive-link a {
-  color: #007bff;
-  text-decoration: none;
-  font-size: 16px;
-  margin-top: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   display: inline-block;
+  margin-top: 20px;
+  text-align: left;
 }
 
-#archive-link a:hover {
-  text-decoration: underline;
-}
-
-/* Social Share Button */
-#social-share {
-  margin-top: 30px;
-}
-
-#shareButton {
-  background-color: #007bff;
+#like-button {
+  cursor: pointer;
+  padding: 10px 20px;
+  background-color: #00796b;
   color: white;
   border: none;
-  padding: 10px 20px;
-  font-size: 18px;
   border-radius: 5px;
-  cursor: pointer;
+  margin-top: 20px;
+  font-size: 16px;
 }
 
-#shareButton:hover {
-  background-color: #0056b3;
+#like-button.liked {
+  background-color: gold;
 }
 
-footer {
-  margin-top: 40px;
-  font-size: 14px;
+#sharkFavicon.liked {
+  filter: hue-rotate(90deg);
+}
+
+img {
+  max-width: 200px;
+  border-radius: 10px;
+  margin-top: 20px;
 }

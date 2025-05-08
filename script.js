@@ -1,130 +1,45 @@
-/* Global styles */
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f2f9ff;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    overflow: hidden; /* Prevent scrolling */
-}
+// Fetch the current day's shark fact from the facts.json file
+fetch('facts.json')
+    .then(response => response.json())
+    .then(data => {
+        const today = new Date().getDate(); // Get today's date (day of the month)
+        const factData = data.find(fact => fact.day === today); // Find today's fact
 
-header {
-    background-color: #6fa3ef;
-    color: white;
-    padding: 15px 0;
-    text-align: center;
-    font-size: 2.2em;
-    border-bottom: 4px solid #1c70b7;
-    flex-shrink: 0; /* Ensure header doesn't shrink */
-}
+        // Populate the fact and image
+        if (factData) {
+            document.getElementById('fact-text').innerText = factData.fact;
+            document.getElementById('shark-img').src = `images/${factData.image}`;
+        }
+    })
+    .catch(error => console.log('Error loading the shark facts:', error));
 
-h1 {
-    margin: 0;
-}
+// Set up the like button and counter
+const likeButton = document.getElementById('like-btn');
+const likeCountDisplay = document.getElementById('like-count');
 
-#fact-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    flex: 1;
-    padding: 20px 10px;
-    overflow: hidden; /* Prevent content overflow */
-    text-align: center;
-}
+// Retrieve the like count from localStorage, or set it to 0 if not available
+let likeCount = localStorage.getItem('likeCount') ? parseInt(localStorage.getItem('likeCount')) : 0;
+likeCountDisplay.innerText = `${likeCount} Likes`;
 
-#fact-container h2 {
-    font-size: 1.8em;
-    color: #333;
-    margin-bottom: 10px;
-}
+// Check if the user has already liked today, using localStorage to store the like state
+const userLiked = localStorage.getItem('userLikedToday');
 
-#fact-text {
-    font-size: 1.2em;
-    color: #444;
-    margin-bottom: 15px;
-    max-width: 350px;
-}
+if (userLiked) {
+    likeButton.disabled = true;
+    likeButton.classList.add('gold'); // Make the button gold
+} else {
+    likeButton.addEventListener('click', () => {
+        likeButton.classList.add('gold'); // Turn the button gold
+        likeButton.disabled = true; // Disable the button after liking
 
-#shark-img {
-    width: 90%;
-    max-width: 400px;
-    border-radius: 15px;
-    margin: 10px 0;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
-}
+        // Increment the like count and update the display
+        likeCount++;
+        likeCountDisplay.innerText = `${likeCount} Likes`;
 
-#shark-img:hover {
-    transform: scale(1.05);
-}
+        // Save the new like count to localStorage
+        localStorage.setItem('likeCount', likeCount);
 
-button {
-    background-color: #d3d3d3; /* Grey initially */
-    color: white;
-    font-size: 1.4em;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-    margin-top: 15px;
-    width: 60%;
-    max-width: 300px;
-}
-
-button.gold {
-    background-color: #ffb74d; /* Gold when clicked */
-}
-
-button:hover {
-    transform: scale(1.05);
-}
-
-button:disabled {
-    background-color: #d3d3d3;
-    cursor: not-allowed;
-}
-
-#like-count {
-    font-size: 1.2em;
-    color: #666;
-    margin-top: 10px;
-}
-
-footer {
-    text-align: center;
-    padding: 10px;
-    background-color: #6fa3ef;
-    color: white;
-    font-size: 1.1em;
-    position: relative;
-    width: 100%;
-    bottom: 0;
-    margin-top: auto;
-}
-
-@media (max-width: 600px) {
-    header {
-        font-size: 2em;
-    }
-
-    #fact-container h2 {
-        font-size: 1.5em;
-    }
-
-    #fact-text {
-        font-size: 1em;
-    }
-
-    button {
-        font-size: 1.2em;
-        width: 70%;
-    }
-
-    #shark-img {
-        width: 90%;
-    }
+        // Mark the user as having liked today (to prevent them from liking again)
+        localStorage.setItem('userLikedToday', 'true');
+    });
 }

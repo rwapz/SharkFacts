@@ -1,11 +1,20 @@
-/* General Body and Layout Styles */
-body {
+/* General Reset and Layout */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
     font-family: 'Arial', sans-serif;
     background-color: #f1f1f1;
     color: #333;
-    margin: 0;
-    padding: 0;
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    overflow: hidden; /* Prevent scrolling */
 }
 
 header {
@@ -14,21 +23,28 @@ header {
     padding: 20px;
     font-size: 2em;
     text-align: center;
+    width: 100%;
     border-bottom: 4px solid #004f6d;
 }
 
-#fact-container {
-    max-width: 600px;
-    margin: 30px auto;
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    max-width: 800px;
+    width: 90%;
     padding: 20px;
     background-color: white;
     border-radius: 8px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
+    margin: 20px auto;
 }
 
 h2 {
-    font-size: 2.2em;
+    font-size: 2.5em;
     color: #006994;
 }
 
@@ -43,7 +59,7 @@ p {
     height: auto;
     border-radius: 8px;
     margin-top: 20px;
-    max-width: 500px;
+    max-width: 600px;
     border: 3px solid #006994;
 }
 
@@ -89,20 +105,14 @@ footer {
     color: white;
     padding: 10px;
     font-size: 1em;
-    position: absolute;
+    text-align: center;
     width: 100%;
-    bottom: 0;
-    left: 0;
 }
 
-/* Media Queries for Responsiveness */
-@media (max-width: 600px) {
-    header {
-        font-size: 1.8em;
-    }
-
+/* Responsive Design */
+@media (max-width: 768px) {
     h2 {
-        font-size: 1.8em;
+        font-size: 2em;
     }
 
     p {
@@ -115,6 +125,6 @@ footer {
     }
 
     #shark-img {
-        width: 100%;
+        max-width: 100%;
     }
 }

@@ -1,17 +1,14 @@
 [
   {
-    "day": 1,
-    "fact": "Whale sharks are the largest sharks, growing up to 18 meters (59 feet) long.",
-    "image": "1_whale_shark.jpg"
+      "fact": "Sharks have been around for over 400 million years.",
+      "image": "shark1.jpg"
   },
   {
-    "day": 2,
-    "fact": "Greenland sharks can live over 500 years — making them the longest-living vertebrate.",
-    "image": "2_greenland_shark.jpg"
+      "fact": "A group of sharks is called a shiver.",
+      "image": "shark2.jpg"
   },
   {
-    "day": 3,
-    "fact": "Hammerhead sharks use their unique head shape to improve their vision and sense prey better.",
-    "image": "3_hammerhead.jpg"
+      "fact": "Sharks can detect a drop of blood in the ocean from miles away.",
+      "image": "shark3.jpg"
   }
 ]

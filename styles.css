@@ -1,4 +1,4 @@
-/* General Reset and Layout */
+/* Modern Desktop-First Approach */
 * {
     margin: 0;
     padding: 0;
@@ -7,128 +7,286 @@
 
 html, body {
     height: 100%;
-    font-family: 'Arial', sans-serif;
-    background-color: #f1f1f1;
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+    background-color: #f6f9fc;
     color: #333;
+}
+
+body {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas: 
+        "header"
+        "content"
+        "footer";
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+/* Header Styling */
+header {
+    grid-area: header;
+    background-color: #006994;
+    color: white;
+    padding: 0.8rem 2rem;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    overflow: hidden; /* Prevent scrolling */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    height: 70px;
+}
+
+header::before {
+    content: "🦈";
+    font-size: 1.8rem;
+    margin-right: 1rem;
+}
+
+header::after {
+    content: "";
+    flex: 1;
 }
 
 header {
-    background-color: #006994;
-    color: white;
-    padding: 40px; /* Increased padding for more space */
-    font-size: 2.5em; /* Adjusted font size */
+    font-size: 1.5rem;
+    font-weight: 600;
     text-align: center;
-    width: 100%;
-    border-bottom: 4px solid #004f6d;
 }
 
+/* Main Content */
 main {
+    grid-area: content;
+    display: flex;
+    flex-direction: row;
+    height: calc(100vh - 120px); /* Subtract header and footer height */
+    overflow: hidden;
+}
+
+/* Sidebar for navigation (for future expansion) */
+.sidebar {
+    width: 250px;
+    background-color: #ffffff;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+    padding: 2rem 1rem;
+    display: none; /* Hidden for now, can be enabled for future features */
+}
+
+/* Fact Container */
+#fact-container {
     flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+        "title title"
+        "text image"
+        "interaction interaction";
+    gap: 2rem;
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    height: 100%;
+}
+
+#fact-title {
+    grid-area: title;
+    font-size: 2.2rem;
+    color: #006994;
+    margin-bottom: 1rem;
+    text-align: center;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 1rem;
+}
+
+#fact-text {
+    grid-area: text;
+    font-size: 1.4rem;
+    line-height: 1.6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    height: 100%;
+}
+
+.image-container {
+    grid-area: image;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+#shark-img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border: 3px solid #006994;
+}
+
+.interaction {
+    grid-area: interaction;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    text-align: center;
-    max-width: 800px;
-    width: 90%;
-    padding: 40px; /* Increased padding */
-    background-color: white;
-    border-radius: 12px; /* Slightly larger border radius */
-    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2); /* Enhanced shadow for depth */
-    margin: 20px auto;
+    gap: 0.8rem;
 }
 
-h2 {
-    font-size: 3em; /* Larger heading */
-    color: #006994;
-}
-
-p {
-    font-size: 1.4em; /* Slightly larger paragraph text */
-    color: #555;
-    margin-top: 20px;
-    line-height: 1.6; /* Increased line height */
-}
-
-#shark-img {
-    width: 100%;
-    height: auto;
-    border-radius: 8px;
-    margin-top: 20px;
-    max-width: 600px;
-    border: 4px solid #006994; /* Thicker border */
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Added shadow */
-}
-
-/* Like Button Styles */
-button {
-    background-color: #d3d3d3; /* Grey initially */
+#like-btn {
+    background-color: #006994;
     color: white;
-    font-size: 1.4em;
-    padding: 15px 30px; /* Increased padding for better touch area */
+    font-size: 1.1rem;
+    padding: 0.7rem 2rem;
     border: none;
-    border-radius: 8px;
+    border-radius: 30px;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; /* Added box-shadow transition */
-    margin-top: 15px;
-    width: 60%;
-    max-width: 300px;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 10px rgba(0, 105, 148, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
-button.gold {
-    background-color: #ffb74d; /* Gold when clicked */
+#like-btn::before {
+    content: "🦈";
 }
 
-button:hover {
-    background-color: #b0b0b0; /* Darker grey on hover */
-    transform: scale(1.05);
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Shadow on hover */
+#like-btn:hover {
+    background-color: #005275;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 105, 148, 0.4);
 }
 
-button:disabled {
-    opacity: 0.6; /* Make disabled button more transparent */
+#like-btn:active {
+    transform: translateY(0);
+}
+
+#like-btn.gold {
+    background-color: #ffb74d;
+    box-shadow: 0 2px 10px rgba(255, 183, 77, 0.4);
+}
+
+#like-btn.gold:hover {
+    background-color: #ffa726;
+    box-shadow: 0 4px 12px rgba(255, 183, 77, 0.5);
+}
+
+#like-btn:disabled {
+    opacity: 0.8;
     cursor: not-allowed;
 }
 
-/* Like Count Styles */
+#like-btn:disabled:hover {
+    transform: none;
+    box-shadow: 0 2px 10px rgba(0, 105, 148, 0.3);
+}
+
+#like-btn.gold:disabled:hover {
+    background-color: #ffb74d;
+    transform: none;
+    box-shadow: 0 2px 10px rgba(255, 183, 77, 0.4);
+}
+
 #like-count {
-    font-size: 1.5em;
+    font-size: 1.1rem;
     color: #006994;
-    margin-top: 20px;
-    font-weight: bold;
+    font-weight: 600;
 }
 
 /* Footer Styling */
 footer {
+    grid-area: footer;
     background-color: #006994;
-    color: white;
-    padding: 20px; /* Increased padding */
-    font-size: 1em;
+    color: rgba(255, 255, 255, 0.9);
+    padding: 0.8rem;
     text-align: center;
-    width: 100%;
+    font-size: 0.9rem;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* Responsive Design */
+@media (max-width: 1024px) {
+    #fact-container {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto auto;
+        grid-template-areas:
+            "title"
+            "image"
+            "text"
+            "interaction";
+    }
+    
+    .image-container, #fact-text {
+        height: auto;
+    }
+    
+    #fact-text {
+        padding: 1.5rem;
+    }
+}
+
 @media (max-width: 768px) {
-    h2 {
-        font-size: 2.5em; /* Adjusted for smaller screens */
+    body {
+        overflow-y: auto;
     }
-
-    p {
-        font-size: 1.1em; /* Adjusted for smaller screens */
+    
+    main {
+        height: auto;
+        min-height: calc(100vh - 120px);
     }
-
-    button {
-        width: 80%;
-        font-size: 1.2em;
+    
+    header {
+        padding: 0.8rem 1rem;
     }
+    
+    #fact-title {
+        font-size: 1.8rem;
+    }
+    
+    #fact-text {
+        font-size: 1.2rem;
+    }
+    
+    #fact-container {
+        padding: 1rem;
+        gap: 1rem;
+    }
+}
 
-    #shark-img {
-        max-width: 100%;
+@media (max-width: 480px) {
+    header {
+        font-size: 1.3rem;
+        height: 60px;
+    }
+    
+    footer {
+        height: 40px;
+    }
+    
+    main {
+        min-height: calc(100vh - 100px);
+    }
+    
+    #fact-title {
+        font-size: 1.5rem;
+    }
+    
+    #fact-text {
+        font-size: 1.1rem;
+        padding: 1rem;
+    }
+    
+    #like-btn {
+        width: 90%;
     }
 }

@@ -5,10 +5,14 @@ fetch('facts.json')
         const today = new Date().getDate(); // Get today's date (day of the month)
         const factData = data.find(fact => fact.day === today); // Find today's fact
 
-        // Populate the fact and image
+        // If the fact for today exists, update the content
         if (factData) {
             document.getElementById('fact-text').innerText = factData.fact;
             document.getElementById('shark-img').src = `images/${factData.image}`;
+            document.getElementById('shark-img').alt = factData.fact; // Alt text for accessibility
+        } else {
+            document.getElementById('fact-text').innerText = "Oops! No fact available for today.";
+            document.getElementById('shark-img').src = ""; // Fallback to empty if no image is found
         }
     })
     .catch(error => console.log('Error loading the shark facts:', error));

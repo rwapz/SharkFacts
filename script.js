@@ -1,41 +1,130 @@
-// Fetch facts from JSON and display the current day's fact
-fetch('facts.json')
-    .then(response => response.json())
-    .then(data => {
-        const day = new Date().getDate();  // Get the current day of the month
-        const sharkFact = data.find(fact => fact.day === day);
-        if (sharkFact) {
-            displayFact(sharkFact);
-        } else {
-            displayFact(data[0]);  // Fallback to the first fact
-        }
-    });
-
-function displayFact(fact) {
-    const factText = document.getElementById('fact-text');
-    const sharkImg = document.getElementById('shark-img');
-    const likeButton = document.getElementById('like-btn');
-    const likeCount = document.getElementById('like-count');
-
-    factText.textContent = fact.fact;
-    sharkImg.src = `images/${fact.image}`;
-    sharkImg.alt = fact.image;
-
-    checkUserLike();
-
-    // Initialize like button functionality
-    likeButton.addEventListener('click', () => {
-        let currentLikes = parseInt(likeCount.textContent) || 0;
-        currentLikes++;
-        likeCount.textContent = `${currentLikes} Likes`;
-        localStorage.setItem('likedDay', new Date().getDate());  // Store user's like status
-        likeButton.disabled = true;  // Disable button after click
-    });
+/* Global styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f2f9ff;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden; /* Prevent scrolling */
 }
 
-function checkUserLike() {
-    let likedToday = localStorage.getItem('likedDay');
-    if (likedToday == new Date().getDate()) {
-        document.getElementById('like-btn').disabled = true;  // Disable if liked today
+header {
+    background-color: #6fa3ef;
+    color: white;
+    padding: 15px 0;
+    text-align: center;
+    font-size: 2.2em;
+    border-bottom: 4px solid #1c70b7;
+    flex-shrink: 0; /* Ensure header doesn't shrink */
+}
+
+h1 {
+    margin: 0;
+}
+
+#fact-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    padding: 20px 10px;
+    overflow: hidden; /* Prevent content overflow */
+    text-align: center;
+}
+
+#fact-container h2 {
+    font-size: 1.8em;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+#fact-text {
+    font-size: 1.2em;
+    color: #444;
+    margin-bottom: 15px;
+    max-width: 350px;
+}
+
+#shark-img {
+    width: 90%;
+    max-width: 400px;
+    border-radius: 15px;
+    margin: 10px 0;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+#shark-img:hover {
+    transform: scale(1.05);
+}
+
+button {
+    background-color: #d3d3d3; /* Grey initially */
+    color: white;
+    font-size: 1.4em;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    margin-top: 15px;
+    width: 60%;
+    max-width: 300px;
+}
+
+button.gold {
+    background-color: #ffb74d; /* Gold when clicked */
+}
+
+button:hover {
+    transform: scale(1.05);
+}
+
+button:disabled {
+    background-color: #d3d3d3;
+    cursor: not-allowed;
+}
+
+#like-count {
+    font-size: 1.2em;
+    color: #666;
+    margin-top: 10px;
+}
+
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #6fa3ef;
+    color: white;
+    font-size: 1.1em;
+    position: relative;
+    width: 100%;
+    bottom: 0;
+    margin-top: auto;
+}
+
+@media (max-width: 600px) {
+    header {
+        font-size: 2em;
+    }
+
+    #fact-container h2 {
+        font-size: 1.5em;
+    }
+
+    #fact-text {
+        font-size: 1em;
+    }
+
+    button {
+        font-size: 1.2em;
+        width: 70%;
+    }
+
+    #shark-img {
+        width: 90%;
     }
 }

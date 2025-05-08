@@ -62,7 +62,7 @@ h1 {
 }
 
 button {
-    background-color: #ffb74d;
+    background-color: #d3d3d3; /* Grey initially */
     color: white;
     font-size: 1.4em;
     padding: 10px 20px;
@@ -75,8 +75,11 @@ button {
     max-width: 300px;
 }
 
+button.gold {
+    background-color: #ffb74d; /* Gold when clicked */
+}
+
 button:hover {
-    background-color: #ff9800;
     transform: scale(1.05);
 }
 

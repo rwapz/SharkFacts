@@ -1,66 +1,53 @@
-/* Global styles */
+/* General Body and Layout Styles */
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f2f9ff;
+    background-color: #f1f1f1;
+    color: #333;
     margin: 0;
     padding: 0;
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    overflow: hidden; /* Prevent scrolling */
+    text-align: center;
 }
 
 header {
-    background-color: #6fa3ef;
+    background-color: #006994;
     color: white;
-    padding: 15px 0;
+    padding: 20px;
+    font-size: 2em;
     text-align: center;
-    font-size: 2.2em;
-    border-bottom: 4px solid #1c70b7;
-    flex-shrink: 0; /* Ensure header doesn't shrink */
-}
-
-h1 {
-    margin: 0;
+    border-bottom: 4px solid #004f6d;
 }
 
 #fact-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    flex: 1;
-    padding: 20px 10px;
-    overflow: hidden; /* Prevent content overflow */
+    max-width: 600px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
 }
 
-#fact-container h2 {
-    font-size: 1.8em;
-    color: #333;
-    margin-bottom: 10px;
+h2 {
+    font-size: 2.2em;
+    color: #006994;
 }
 
-#fact-text {
+p {
     font-size: 1.2em;
-    color: #444;
-    margin-bottom: 15px;
-    max-width: 350px;
+    color: #555;
+    margin-top: 20px;
 }
 
 #shark-img {
-    width: 90%;
-    max-width: 400px;
-    border-radius: 15px;
-    margin: 10px 0;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-top: 20px;
+    max-width: 500px;
+    border: 3px solid #006994;
 }
 
-#shark-img:hover {
-    transform: scale(1.05);
-}
-
+/* Like Button Styles */
 button {
     background-color: #d3d3d3; /* Grey initially */
     color: white;
@@ -88,43 +75,46 @@ button:disabled {
     cursor: not-allowed;
 }
 
+/* Like Count Styles */
 #like-count {
-    font-size: 1.2em;
-    color: #666;
-    margin-top: 10px;
+    font-size: 1.5em;
+    color: #006994;
+    margin-top: 20px;
+    font-weight: bold;
 }
 
+/* Footer Styling */
 footer {
-    text-align: center;
-    padding: 10px;
-    background-color: #6fa3ef;
+    background-color: #006994;
     color: white;
-    font-size: 1.1em;
-    position: relative;
+    padding: 10px;
+    font-size: 1em;
+    position: absolute;
     width: 100%;
     bottom: 0;
-    margin-top: auto;
+    left: 0;
 }
 
+/* Media Queries for Responsiveness */
 @media (max-width: 600px) {
     header {
-        font-size: 2em;
+        font-size: 1.8em;
     }
 
-    #fact-container h2 {
-        font-size: 1.5em;
+    h2 {
+        font-size: 1.8em;
     }
 
-    #fact-text {
+    p {
         font-size: 1em;
     }
 
     button {
+        width: 80%;
         font-size: 1.2em;
-        width: 70%;
     }
 
     #shark-img {
-        width: 90%;
+        width: 100%;
     }
 }

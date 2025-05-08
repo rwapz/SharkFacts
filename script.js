@@ -74,7 +74,7 @@ function initializeLikeButton(factIndex) {
             likeButton.classList.add('gold');
             likeButton.disabled = true;
             
-            // Send to server (simulation)
+            // Log like action (for debugging)
             console.log(`Like registered for fact #${factIndex} on ${getTodayDateString()}`);
             
             // Animation effect
@@ -82,26 +82,6 @@ function initializeLikeButton(factIndex) {
             setTimeout(() => {
                 likeButton.classList.remove('liked-animation');
             }, 500);
-            
-            // For real server implementation:
-            // This would be where you'd make an API call to your backend
-            // to store the like in a database
-            /* 
-            fetch('https://your-backend-api.com/likes', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ 
-                    factIndex: factIndex,
-                    date: getTodayDateString()
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                // Update with server data if needed
-                likeCountDisplay.innerText = `${data.likeCount} ${data.likeCount === 1 ? 'Like' : 'Likes'}`;
-            })
-            .catch(error => console.log('Error updating like count:', error));
-            */
         }
     });
 }

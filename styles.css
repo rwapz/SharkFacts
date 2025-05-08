@@ -20,7 +20,7 @@ body {
         "content"
         "footer";
     min-height: 100vh;
-    overflow: hidden;
+    overflow-x: hidden;
 }
 
 /* Header Styling */
@@ -28,18 +28,18 @@ header {
     grid-area: header;
     background-color: #006994;
     color: white;
-    padding: 0.8rem 2rem;
+    padding: 0.6rem 2rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     z-index: 10;
-    height: 70px;
+    height: 60px; /* Reduced height */
 }
 
 header::before {
     content: "🦈";
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     margin-right: 1rem;
 }
 
@@ -49,7 +49,7 @@ header::after {
 }
 
 header {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     font-weight: 600;
     text-align: center;
 }
@@ -59,8 +59,9 @@ main {
     grid-area: content;
     display: flex;
     flex-direction: row;
-    height: calc(100vh - 120px); /* Subtract header and footer height */
-    overflow: hidden;
+    min-height: calc(100vh - 100px); /* Subtract header and footer height */
+    overflow-y: auto; /* Enable vertical scrolling if needed */
+    padding-bottom: 10px; /* Add some bottom padding */
 }
 
 /* Sidebar for navigation (for future expansion) */
@@ -82,35 +83,36 @@ main {
         "title title"
         "text image"
         "interaction interaction";
-    gap: 2rem;
-    padding: 2rem;
+    gap: 1.5rem; /* Reduced gap */
+    padding: 1.5rem; /* Reduced padding */
     max-width: 1400px;
     margin: 0 auto;
-    height: 100%;
+    min-height: 0; /* Allow container to fit content */
 }
 
 #fact-title {
     grid-area: title;
-    font-size: 2.2rem;
+    font-size: 1.8rem; /* Smaller font */
     color: #006994;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem; /* Reduced margin */
     text-align: center;
     border-bottom: 2px solid #e0e0e0;
-    padding-bottom: 1rem;
+    padding-bottom: 0.5rem; /* Reduced padding */
 }
 
 #fact-text {
     grid-area: text;
-    font-size: 1.4rem;
-    line-height: 1.6;
+    font-size: 1.2rem; /* Smaller font */
+    line-height: 1.5;
     display: flex;
     align-items: center;
     justify-content: center;
     background-color: white;
-    padding: 2rem;
+    padding: 1.5rem; /* Reduced padding */
     border-radius: 8px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     height: 100%;
+    overflow-y: auto; /* Allow scrolling for long text */
 }
 
 .image-container {
@@ -119,6 +121,7 @@ main {
     align-items: center;
     justify-content: center;
     height: 100%;
+    padding: 0.5rem; /* Added padding */
 }
 
 #shark-img {
@@ -136,14 +139,18 @@ main {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 0.8rem;
+    gap: 0.5rem; /* Reduced gap */
+    padding: 0.5rem; /* Added padding all around */
+    background-color: white; /* Optional: Add background to separate from content */
+    border-radius: 8px; /* Optional: Add rounded corners */
+    margin-bottom: 10px; /* Ensure space before footer */
 }
 
 #like-btn {
     background-color: #006994;
     color: white;
-    font-size: 1.1rem;
-    padding: 0.7rem 2rem;
+    font-size: 1rem; /* Smaller font */
+    padding: 0.5rem 1.5rem; /* Reduced padding */
     border: none;
     border-radius: 30px;
     cursor: pointer;
@@ -195,7 +202,7 @@ main {
 }
 
 #like-count {
-    font-size: 1.1rem;
+    font-size: 1rem; /* Smaller font */
     color: #006994;
     font-weight: 600;
 }
@@ -205,13 +212,14 @@ footer {
     grid-area: footer;
     background-color: #006994;
     color: rgba(255, 255, 255, 0.9);
-    padding: 0.8rem;
+    padding: 0.5rem; /* Reduced padding */
     text-align: center;
-    font-size: 0.9rem;
-    height: 50px;
+    font-size: 0.8rem; /* Smaller font */
+    height: 40px; /* Reduced height */
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-top: auto; /* Push to bottom */
 }
 
 /* Responsive Design */
@@ -242,19 +250,19 @@ footer {
     
     main {
         height: auto;
-        min-height: calc(100vh - 120px);
+        min-height: calc(100vh - 100px);
     }
     
     header {
-        padding: 0.8rem 1rem;
+        padding: 0.6rem 1rem;
     }
     
     #fact-title {
-        font-size: 1.8rem;
+        font-size: 1.6rem;
     }
     
     #fact-text {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
     }
     
     #fact-container {
@@ -265,28 +273,39 @@ footer {
 
 @media (max-width: 480px) {
     header {
-        font-size: 1.3rem;
-        height: 60px;
+        font-size: 1.2rem;
+        height: 50px;
     }
     
     footer {
-        height: 40px;
+        height: 35px;
     }
     
     main {
-        min-height: calc(100vh - 100px);
+        min-height: calc(100vh - 85px);
     }
     
     #fact-title {
-        font-size: 1.5rem;
+        font-size: 1.4rem;
     }
     
     #fact-text {
-        font-size: 1.1rem;
+        font-size: 1rem;
         padding: 1rem;
     }
     
     #like-btn {
         width: 90%;
     }
+}
+
+/* Animation for like button */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+.liked-animation {
+    animation: pulse 0.5s ease;
 }

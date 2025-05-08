@@ -1,58 +1,25 @@
 body {
-  background-color: #e0f7fa;
-  font-family: 'Fredoka', sans-serif;
+  font-family: Arial, sans-serif;
   text-align: center;
-  padding: 30px;
-  margin: 0;
+  background-color: #e0f7fa;
+  color: #004d40;
 }
 
-header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 15px;
-  margin-bottom: 30px;
+#fact-image {
+  width: 300px;
+  margin: 20px;
 }
 
-.header-icon {
-  width: 40px;
-}
-
-h1 {
-  color: #00796b;
-  margin: 0;
-}
-
-.fact-box {
-  background: #ffffff;
-  padding: 25px;
-  border-radius: 15px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-  max-width: 600px;
-  margin: auto;
-}
-
-.fact-image {
-  max-width: 100%;
-  border-radius: 12px;
-  margin-top: 15px;
-}
-
-.like-section {
+#like-container {
   margin-top: 20px;
 }
 
-.like-button {
+#like-icon {
+  width: 50px;
   cursor: pointer;
-  font-size: 35px;
-  transition: transform 0.2s;
 }
 
-.like-button:hover {
-  transform: scale(1.3);
-}
-
-footer {
-  margin-top: 50px;
-  color: #555;
+#like-count {
+  font-size: 1.5em;
+  margin-left: 10px;
 }

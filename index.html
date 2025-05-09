@@ -5,38 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daily Shark Facts</title>
     <link rel="stylesheet" href="styles.css">
+
+    <!-- Firebase CDN links -->
+    <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js"></script>
 </head>
 <body>
     <header>
-        Daily Shark Facts
+        <h1>Daily Shark Facts</h1>
     </header>
-
     <main>
-        <!-- Sidebar for future navigation features -->
-        <div class="sidebar">
-            <!-- Future navigation elements -->
-        </div>
-
         <div id="fact-container">
-            <h2 id="fact-title">Shark Fact of the Day</h2>
-            
-            <p id="fact-text">Loading fascinating shark fact...</p>
-            
-            <div class="image-container">
-                <img id="shark-img" src="" alt="Shark Image" />
+            <div id="fact-title">
+                <h2>Shark Fact of the Day</h2>
             </div>
-            
+            <div id="fact-text">
+                <!-- Shark fact text will appear here -->
+            </div>
+            <div class="image-container">
+                <img id="shark-img" alt="Shark Image" style="display:none;" />
+            </div>
             <div class="interaction">
                 <button id="like-btn">Like</button>
-                <p id="like-count">0 Likes</p>
+                <div id="like-count">Likes: 0</div>
             </div>
         </div>
     </main>
-
     <footer>
-        &copy; 2025 Daily Shark Facts
+        <p>&copy; 2025 Daily Shark Facts</p>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
 </body>
 </html>

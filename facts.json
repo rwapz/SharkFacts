@@ -1,17 +1,14 @@
 [
-  { "fact": "Sharks have been around for over 400 million years.", "image": "shark1.jpg" },
-  { "fact": "A group of sharks is called a shiver.", "image": "shark2.jpg" },
-  { "fact": "Sharks can detect a drop of blood in the ocean from miles away.", "image": "shark3.jpg" },
-  { "fact": "Some sharks have a sixth sense that detects electric fields.", "image": "shark4.jpg" },
-  { "fact": "Whale sharks are the largest fish in the world.", "image": "shark5.jpg" },
-  { "fact": "Sharks don’t have bones, only cartilage.", "image": "shark6.jpg" },
-  { "fact": "Hammerhead sharks can see 360 degrees.", "image": "shark7.jpg" },
-  { "fact": "Some sharks can live to be over 100 years old.", "image": "shark8.jpg" },
-  { "fact": "Sharks constantly lose and replace their teeth.", "image": "shark9.jpg" },
-  { "fact": "Sharks can go into a trance-like state when flipped upside down.", "image": "shark10.jpg" },
-  { "fact": "There are over 500 known species of sharks.", "image": "shark11.jpg" },
-  { "fact": "Greenland sharks may be the longest-living vertebrates.", "image": "shark12.jpg" },
-  { "fact": "Sharks have multiple rows of teeth.", "image": "shark13.jpg" },
-  { "fact": "Sharks are crucial for maintaining marine ecosystem balance.", "image": "shark14.jpg" },
-  { "fact": "Some sharks can glow in the dark.", "image": "shark15.jpg" }
+  {
+      "fact": "Sharks have been around for over 400 million years.",
+      "image": "shark1.jpg"
+  },
+  {
+      "fact": "There are over 500 species of sharks.",
+      "image": "shark2.jpg"
+  },
+  {
+      "fact": "The Great White Shark can live up to 70 years.",
+      "image": "shark3.jpg"
+  }
 ]

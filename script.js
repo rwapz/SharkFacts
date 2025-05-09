@@ -1,107 +1,82 @@
-// Helper function to get today's date as a string in format YYYY-MM-DD
-function getTodayDateString() {
-    const today = new Date();
-    return `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
-}
+// Initialize Firebase
+import { initializeApp } from "firebase/app";
+import { getDatabase, ref, get, child, set, update } from "firebase/database";
 
-// Helper function to get the fact of the day index
-function getFactOfTheDayIndex(data) {
-    const today = new Date();
-    const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
-    return dayOfYear % data.length;
-}
+// Your Firebase config (use your actual config)
+const firebaseConfig = {
+  apiKey: "AIzaSyD9DHeQ_oegXfg_doCUDT2ASd2xkJrti48",
+  authDomain: "shark-facts.firebaseapp.com",
+  databaseURL: "https://shark-facts-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "shark-facts",
+  storageBucket: "shark-facts.appspot.com",
+  messagingSenderId: "252033399358",
+  appId: "1:252033399358:web:17e7265cc8be27456aaf6f",
+  measurementId: "G-N0FHSQL3XF"
+};
 
-// Load shark fact for today
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+// Fetch shark facts and likes
 function loadSharkFact() {
-    fetch('facts.json')
-        .then(response => response.json())
-        .then(data => {
-            const factIndex = getFactOfTheDayIndex(data);
-            const factData = data[factIndex];
+    const factRef = ref(db, 'facts');
+    const likesRef = ref(db, 'likes');
 
-            // Update the content
-            document.getElementById('fact-text').innerText = factData.fact;
-            document.getElementById('shark-img').src = `images/${factData.image}`;
-            document.getElementById('shark-img').alt = factData.fact;
-            
-            // Initialize like button state
-            initializeLikeButton(factIndex);
-        })
-        .catch(error => {
-            console.log('Error loading the shark facts:', error);
-            document.getElementById('fact-text').innerText = 'Could not load shark fact. Please try again later.';
+    // Get data from Firebase
+    get(factRef).then((factSnapshot) => {
+        get(likesRef).then((likesSnapshot) => {
+            if (factSnapshot.exists() && likesSnapshot.exists()) {
+                const facts = factSnapshot.val();
+                const likes = likesSnapshot.val();
+
+                const factIndex = getFactOfTheDayIndex(facts);
+                const factData = facts[factIndex];
+                const likeCount = likes[factIndex];
+
+                // Update the content
+                document.getElementById('fact-text').innerText = factData.fact;
+                const sharkImg = document.getElementById('shark-img');
+                sharkImg.src = `images/${factData.image}`;
+                sharkImg.alt = factData.fact;
+                sharkImg.style.display = 'block'; // Show the image
+                document.getElementById('like-count').innerText = likeCount;
+
+                // Update the like button state
+                const likeButton = document.getElementById('like-btn');
+                likeButton.disabled = false; // Enable like button
+                likeButton.onclick = () => handleLike(factIndex, likes);
+            } else {
+                console.log("No data available");
+            }
         });
-}
-
-// Initialize like button state
-function initializeLikeButton(factIndex) {
-    const likeButton = document.getElementById('like-btn');
-    const likeCountDisplay = document.getElementById('like-count');
-    
-    // Generate a unique key for today's fact
-    const todayKey = `shark-fact-like-${getTodayDateString()}-fact-${factIndex}`;
-    
-    // Check if user has already liked today's fact
-    const hasUserLikedToday = localStorage.getItem(todayKey) === 'true';
-    
-    // Get the current like count from local storage or default to 0
-    let currentLikeCount = parseInt(localStorage.getItem(`${todayKey}-count`) || '0');
-    
-    // Update the like count display
-    likeCountDisplay.innerText = `${currentLikeCount} ${currentLikeCount === 1 ? 'Like' : 'Likes'}`;
-    
-    // Apply visual state if already liked
-    if (hasUserLikedToday) {
-        likeButton.classList.add('gold');
-        likeButton.disabled = true;
-    } else {
-        likeButton.classList.remove('gold');
-        likeButton.disabled = false;
-    }
-    
-    // Handle like button click
-    likeButton.addEventListener('click', () => {
-        if (!hasUserLikedToday) {
-            // Mark as liked in local storage
-            localStorage.setItem(todayKey, 'true');
-            
-            // Increment the like count
-            currentLikeCount++;
-            localStorage.setItem(`${todayKey}-count`, currentLikeCount);
-            
-            // Update UI
-            likeCountDisplay.innerText = `${currentLikeCount} ${currentLikeCount === 1 ? 'Like' : 'Likes'}`;
-            likeButton.classList.add('gold');
-            likeButton.disabled = true;
-            
-            // Log like action (for debugging)
-            console.log(`Like registered for fact #${factIndex} on ${getTodayDateString()}`);
-            
-            // Animation effect
-            likeButton.classList.add('liked-animation');
-            setTimeout(() => {
-                likeButton.classList.remove('liked-animation');
-            }, 500);
-        }
+    }).catch((error) => {
+        console.error(error);
     });
 }
 
-// Handle page load
+// Helper function to get the fact of the day index
+function getFactOfTheDayIndex(facts) {
+    const today = new Date();
+    const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
+    return dayOfYear % Object.keys(facts).length;
+}
+
+// Handle like button click
+function handleLike(factIndex, likes) {
+    const newLikes = likes[factIndex] + 1; // Increment like count
+    const likesRef = ref(db, 'likes/' + factIndex);
+
+    // Update likes in Firebase
+    update(likesRef, newLikes).then(() => {
+        document.getElementById('like-count').innerText = newLikes;
+        document.getElementById('like-btn').classList.add('gold'); // Change button to gold after like
+    }).catch((error) => {
+        console.error("Error updating likes:", error);
+    });
+}
+
+// Load the shark fact when the page loads
 document.addEventListener('DOMContentLoaded', () => {
     loadSharkFact();
-    
-    // Add animation class to styles
-    const style = document.createElement('style');
-    style.textContent = `
-        .liked-animation {
-            animation: pulse 0.5s ease;
-        }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
-        }
-    `;
-    document.head.appendChild(style);
 });

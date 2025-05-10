@@ -19,5 +19,6 @@
   "homepage": "https://github.com/rwapz/SharkFacts#readme",
   "dependencies": {
     "firebase": "^11.7.1"
-  }
+  },
+  "type": "module"
 }

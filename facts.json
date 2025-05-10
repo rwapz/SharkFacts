@@ -1,15 +1,13 @@
-{
-    "facts": {
-      "0": {
-        "id": "whale-shark-1",
-        "text": "The whale shark is the largest fish in the ocean, growing up to 40 feet long.",
-        "image": "images/whale-shark-1.jpg"
-      },
-      "1": {
-        "id": "shortfin-mako-1",
-        "text": "Shortfin mako sharks are the fastest sharks, capable of reaching 60 mph.",
-        "image": "images/shortfin-mako-1.jpg"
-      }
+[
+    {
+      "id": "whale-shark-1",
+      "text": "The whale shark is the largest fish in the ocean, growing up to 40 feet long.",
+      "image": "images/whale-shark-1.jpg"
+    },
+    {
+      "id": "shortfin-mako-1",
+      "text": "Shortfin mako sharks are the fastest sharks, capable of reaching 60 mph.",
+      "image": "images/shortfin-mako-1.jpg"
     }
-  }
+  ]
   

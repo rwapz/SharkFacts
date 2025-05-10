@@ -1,53 +1,60 @@
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getDatabase, ref, set, get } from "firebase/database";
-// Import Analytics only in the browser environment
-import { getAnalytics, isSupported } from "firebase/analytics";
+// Import Firebase (ESM style)
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+import { getDatabase, ref, get, set, increment, onValue } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js";
 
-// Your web app's Firebase configuration
+// Firebase config
 const firebaseConfig = {
-  apiKey: "AIzaSyD9DHeQ_oegXfg_doCUDT2ASd2xkJrti48",
-  authDomain: "shark-facts.firebaseapp.com",
-  databaseURL: "https://shark-facts-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "shark-facts",
-  storageBucket: "shark-facts.firebasestorage.app",
-  messagingSenderId: "252033399358",
-  appId: "1:252033399358:web:17e7265cc8be27456aaf6f",
-  measurementId: "G-N0FHSQL3XF"
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+  databaseURL: "https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_PROJECT_ID.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID"
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
 
-// Initialize Analytics only if it's supported in the environment (browser)
-if (typeof window !== 'undefined' && isSupported()) {
-  const analytics = getAnalytics(app);
+// Elements
+const factText = document.getElementById("fact-text");
+const sharkImg = document.getElementById("shark-img");
+const likeBtn = document.getElementById("like-btn");
+const likeCount = document.getElementById("like-count");
+
+// Current fact key (you can change this dynamically later)
+const factKey = "whale-shark-1";
+
+// Load fact and image
+async function loadFact() {
+  const factRef = ref(database, `facts/${factKey}`);
+  const snapshot = await get(factRef);
+
+  if (snapshot.exists()) {
+    const data = snapshot.val();
+    factText.textContent = data.text;
+    sharkImg.src = "images/" + data.image;
+    sharkImg.alt = "Image of shark: " + factKey;
+  } else {
+    factText.textContent = "No fact available.";
+  }
+
+  // Show real-time like count
+  const likeRef = ref(database, `likes/${factKey}`);
+  onValue(likeRef, (snapshot) => {
+    const count = snapshot.val() ?? 0;
+    likeCount.textContent = count;
+  });
 }
 
-// Firebase Realtime Database initialization
-const db = getDatabase(app);
-
-// Example to interact with the Realtime Database
-const factId = "whale-shark-1";
-const factRef = ref(db, 'facts/' + factId);
-
-// Set data to the database
-set(factRef, {
-  text: "The whale shark is the largest fish in the ocean, growing up to 40 feet long.",
-  image: "whale-shark-1.jpg"
-}).then(() => {
-  console.log("Data has been written to Firebase!");
-}).catch((error) => {
-  console.error("Error writing data: ", error);
+// Handle like button click
+likeBtn.addEventListener("click", async () => {
+  const likeRef = ref(database, `likes/${factKey}`);
+  await set(likeRef, increment(1));
+  likeBtn.classList.add("liked-animation");
+  setTimeout(() => likeBtn.classList.remove("liked-animation"), 500);
 });
 
-// Fetch data from Firebase
-get(factRef).then((snapshot) => {
-  if (snapshot.exists()) {
-    console.log(snapshot.val());
-  } else {
-    console.log("No data available");
-  }
-}).catch((error) => {
-  console.error("Error fetching data: ", error);
-});
+// Start app
+loadFact();

@@ -1,8 +1,14 @@
-// Initialize Firebase
-import { initializeApp } from "firebase/app";
-import { getDatabase, ref, get, child, set, update } from "firebase/database";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+import {
+  getDatabase,
+  ref,
+  get,
+  child,
+  set,
+  onValue
+} from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
 
-// Your Firebase config (use your actual config)
+// Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyD9DHeQ_oegXfg_doCUDT2ASd2xkJrti48",
   authDomain: "shark-facts.firebaseapp.com",
@@ -14,69 +20,47 @@ const firebaseConfig = {
   measurementId: "G-N0FHSQL3XF"
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-// Fetch shark facts and likes
-function loadSharkFact() {
-    const factRef = ref(db, 'facts');
-    const likesRef = ref(db, 'likes');
+// DOM elements
+const factText = document.getElementById("fact-text");
+const sharkImg = document.getElementById("shark-img");
+const likeBtn = document.getElementById("like-btn");
+const likeCount = document.getElementById("like-count");
 
-    // Get data from Firebase
-    get(factRef).then((factSnapshot) => {
-        get(likesRef).then((likesSnapshot) => {
-            if (factSnapshot.exists() && likesSnapshot.exists()) {
-                const facts = factSnapshot.val();
-                const likes = likesSnapshot.val();
-
-                const factIndex = getFactOfTheDayIndex(facts);
-                const factData = facts[factIndex];
-                const likeCount = likes[factIndex];
-
-                // Update the content
-                document.getElementById('fact-text').innerText = factData.fact;
-                const sharkImg = document.getElementById('shark-img');
-                sharkImg.src = `images/${factData.image}`;
-                sharkImg.alt = factData.fact;
-                sharkImg.style.display = 'block'; // Show the image
-                document.getElementById('like-count').innerText = likeCount;
-
-                // Update the like button state
-                const likeButton = document.getElementById('like-btn');
-                likeButton.disabled = false; // Enable like button
-                likeButton.onclick = () => handleLike(factIndex, likes);
-            } else {
-                console.log("No data available");
-            }
-        });
-    }).catch((error) => {
-        console.error(error);
-    });
-}
-
-// Helper function to get the fact of the day index
-function getFactOfTheDayIndex(facts) {
+// Fetch facts
+fetch("facts.json")
+  .then(res => res.json())
+  .then(facts => {
     const today = new Date();
-    const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
-    return dayOfYear % Object.keys(facts).length;
-}
+    const dayIndex = today.getDate() % facts.length;
+    const fact = facts[dayIndex];
+    const factId = fact.id;
 
-// Handle like button click
-function handleLike(factIndex, likes) {
-    const newLikes = likes[factIndex] + 1; // Increment like count
-    const likesRef = ref(db, 'likes/' + factIndex);
+    factText.textContent = fact.text;
+    sharkImg.src = fact.image;
+    sharkImg.alt = "Image of a shark";
 
-    // Update likes in Firebase
-    update(likesRef, newLikes).then(() => {
-        document.getElementById('like-count').innerText = newLikes;
-        document.getElementById('like-btn').classList.add('gold'); // Change button to gold after like
-    }).catch((error) => {
-        console.error("Error updating likes:", error);
+    const likeRef = ref(db, `likes/${factId}`);
+
+    // Display current likes
+    onValue(likeRef, snapshot => {
+      likeCount.textContent = `${snapshot.val() || 0} Likes`;
     });
-}
 
-// Load the shark fact when the page loads
-document.addEventListener('DOMContentLoaded', () => {
-    loadSharkFact();
-});
+    likeBtn.addEventListener("click", () => {
+      // Like logic (adds 1 like if allowed by rules)
+      get(likeRef).then(snapshot => {
+        const current = snapshot.val() || 0;
+        const newCount = current + 1;
+        set(likeRef, newCount);
+        likeBtn.classList.add("liked-animation");
+        setTimeout(() => likeBtn.classList.remove("liked-animation"), 500);
+      });
+    });
+  })
+  .catch(err => {
+    factText.textContent = "Failed to load shark fact.";
+    console.error(err);
+  });

@@ -1,14 +1,13 @@
 [
-  {
-      "fact": "Sharks have been around for over 400 million years.",
-      "image": "shark1.jpg"
-  },
-  {
-      "fact": "There are over 500 species of sharks.",
-      "image": "shark2.jpg"
-  },
-  {
-      "fact": "The Great White Shark can live up to 70 years.",
-      "image": "shark3.jpg"
-  }
-]
+    {
+      "id": "whale-shark-1",
+      "text": "The whale shark is the largest fish in the ocean, growing up to 40 feet long.",
+      "image": "images/whale-shark-1.jpg"
+    },
+    {
+      "id": "shortfin-mako-1",
+      "text": "Shortfin mako sharks are the fastest sharks, capable of reaching 60 mph.",
+      "image": "images/shortfin-mako-1.jpg"
+    }
+  ]
+  

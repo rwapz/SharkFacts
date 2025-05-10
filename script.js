@@ -1,60 +1,75 @@
-// Import Firebase (ESM style)
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-import { getDatabase, ref, get, set, increment, onValue } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js";
+// Sample facts array with images stored in "images/" folder
+const facts = [
+    {
+        "fact": "The whale shark is the largest fish in the world, growing up to 40 feet long!",
+        "image": "images/whale-shark-1.jpg"
+    },
+    {
+        "fact": "Sharks have been around for over 400 million years, long before dinosaurs existed!",
+        "image": "images/shark.jpg"
+    },
+    {
+        "fact": "Great white sharks can swim at speeds of up to 25 miles per hour!",
+        "image": "images/great-white-shark.jpg"
+    },
+    {
+        "fact": "Hammerhead sharks have 360-degree vision, allowing them to see in almost every direction at once!",
+        "image": "images/hammerhead-shark.jpg"
+    },
+    {
+        "fact": "The shortest shark in the world is the dwarf lanternshark, measuring only about 7.9 inches long!",
+        "image": "images/dwarf-lantern-shark.jpg"
+    },
+    {
+        "fact": "Sharks don’t have bones; their skeletons are made of cartilage, which is lighter and more flexible.",
+        "image": "images/shark-skeleton.jpg"
+    },
+    {
+        "fact": "Mako sharks are the fastest sharks, reaching speeds of 60 miles per hour!",
+        "image": "images/mako-shark.jpg"
+    },
+    {
+        "fact": "Sharks can sense an electrical field emitted by their prey, helping them detect animals hiding in the sand!",
+        "image": "images/shark-sensing.jpg"
+    },
+    {
+        "fact": "Sharks can go weeks or even months without eating, depending on the species and their environment!",
+        "image": "images/shark-hunting.jpg"
+    }
+];
 
-// Firebase config
-const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-  databaseURL: "https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT_ID.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
-};
+let currentFactIndex = 0; // Start with the first fact
+let likeCount = 0; // Initialize like count
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const database = getDatabase(app);
+// Function to update the displayed fact and image
+function displayFact(index) {
+    const factText = document.getElementById('fact-text');
+    const sharkImage = document.getElementById('shark-img');
+    const factTitle = document.getElementById('fact-title');
+    
+    // Update the fact text and title
+    factText.textContent = facts[index].fact;
+    factTitle.textContent = `Shark Fact of the Day`;
 
-// Elements
-const factText = document.getElementById("fact-text");
-const sharkImg = document.getElementById("shark-img");
-const likeBtn = document.getElementById("like-btn");
-const likeCount = document.getElementById("like-count");
-
-// Current fact key (you can change this dynamically later)
-const factKey = "whale-shark-1";
-
-// Load fact and image
-async function loadFact() {
-  const factRef = ref(database, `facts/${factKey}`);
-  const snapshot = await get(factRef);
-
-  if (snapshot.exists()) {
-    const data = snapshot.val();
-    factText.textContent = data.text;
-    sharkImg.src = "images/" + data.image;
-    sharkImg.alt = "Image of shark: " + factKey;
-  } else {
-    factText.textContent = "No fact available.";
-  }
-
-  // Show real-time like count
-  const likeRef = ref(database, `likes/${factKey}`);
-  onValue(likeRef, (snapshot) => {
-    const count = snapshot.val() ?? 0;
-    likeCount.textContent = count;
-  });
+    // Update the shark image (with path corrected to the images folder)
+    sharkImage.src = facts[index].image;
+    sharkImage.style.display = 'block'; // Ensure the image is visible
 }
 
-// Handle like button click
-likeBtn.addEventListener("click", async () => {
-  const likeRef = ref(database, `likes/${factKey}`);
-  await set(likeRef, increment(1));
-  likeBtn.classList.add("liked-animation");
-  setTimeout(() => likeBtn.classList.remove("liked-animation"), 500);
-});
+// Function to handle the like button
+function handleLikeButton() {
+    likeCount++; // Increment the like count
+    document.getElementById('like-count').textContent = `Likes: ${likeCount}`; // Update like count on the page
+}
 
-// Start app
-loadFact();
+// Initial display of the first fact
+displayFact(currentFactIndex);
+
+// Event listener for the like button
+document.getElementById('like-btn').addEventListener('click', handleLikeButton);
+
+// Next button functionality (testing)
+document.getElementById('next-btn').addEventListener('click', () => {
+    currentFactIndex = (currentFactIndex + 1) % facts.length; // Cycle through facts
+    displayFact(currentFactIndex);
+});

@@ -19,8 +19,8 @@ body {
         "header"
         "content"
         "footer";
-    min-height: 100vh;
-    overflow-x: hidden;
+    height: 100vh;
+    overflow: hidden; /* Disable all scrolling */
 }
 
 /* Header Styling */
@@ -34,7 +34,7 @@ header {
     justify-content: space-between;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     z-index: 10;
-    height: 60px; /* Reduced height */
+    height: 60px;
 }
 
 header::before {
@@ -58,24 +58,16 @@ header {
 main {
     grid-area: content;
     display: flex;
-    flex-direction: row;
-    min-height: calc(100vh - 100px); /* Subtract header and footer height */
-    overflow-y: auto; /* Enable vertical scrolling if needed */
-    padding-bottom: 10px; /* Add some bottom padding */
-}
-
-/* Sidebar for navigation (for future expansion) */
-.sidebar {
-    width: 250px;
-    background-color: #ffffff;
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
-    padding: 2rem 1rem;
-    display: none; /* Hidden for now, can be enabled for future features */
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: calc(100vh - 100px); /* Adjust for header and footer */
+    padding: 1rem;
+    overflow: hidden; /* Disable scrolling inside the main section */
 }
 
 /* Fact Container */
 #fact-container {
-    flex: 1;
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto 1fr auto;
@@ -83,45 +75,48 @@ main {
         "title title"
         "text image"
         "interaction interaction";
-    gap: 1.5rem; /* Reduced gap */
-    padding: 1.5rem; /* Reduced padding */
-    max-width: 1400px;
-    margin: 0 auto;
-    min-height: 0; /* Allow container to fit content */
+    gap: 1rem;
+    padding: 1rem;
+    max-width: 1200px;
+    min-height: 0;
+    width: 100%;
 }
 
+/* Title */
 #fact-title {
     grid-area: title;
-    font-size: 1.8rem; /* Smaller font */
+    font-size: 1.8rem;
     color: #006994;
-    margin-bottom: 0.5rem; /* Reduced margin */
+    margin-bottom: 0.5rem;
     text-align: center;
     border-bottom: 2px solid #e0e0e0;
-    padding-bottom: 0.5rem; /* Reduced padding */
+    padding-bottom: 0.5rem;
 }
 
+/* Fact Text */
 #fact-text {
     grid-area: text;
-    font-size: 1.2rem; /* Smaller font */
+    font-size: 1.2rem;
     line-height: 1.5;
     display: flex;
     align-items: center;
     justify-content: center;
     background-color: white;
-    padding: 1.5rem; /* Reduced padding */
+    padding: 1.5rem;
     border-radius: 8px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     height: 100%;
-    overflow-y: auto; /* Allow scrolling for long text */
+    overflow-y: auto;
 }
 
+/* Image Container */
 .image-container {
     grid-area: image;
     display: flex;
     align-items: center;
     justify-content: center;
     height: 100%;
-    padding: 0.5rem; /* Added padding */
+    padding: 0.5rem;
 }
 
 #shark-img {
@@ -133,29 +128,23 @@ main {
     border: 3px solid #006994;
 }
 
-.interaction {
-    grid-area: interaction;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem; /* Reduced gap */
-    padding: 0.5rem; /* Added padding all around */
-    background-color: white; /* Optional: Add background to separate from content */
-    border-radius: 8px; /* Optional: Add rounded corners */
-    margin-bottom: 10px; /* Ensure space before footer */
+/* Interaction (Like button) */
+#like-btn-container {
+    position: absolute;
+    top: 150px; /* Adjust this to be above the fact box */
+    right: 10px; /* Position 10px from the right */
+    z-index: 20;
 }
 
 #like-btn {
     background-color: #006994;
     color: white;
-    font-size: 1rem; /* Smaller font */
-    padding: 0.5rem 1.5rem; /* Reduced padding */
+    font-size: 1rem;
+    padding: 0.5rem 1.5rem;
     border: none;
     border-radius: 30px;
     cursor: pointer;
     transition: all 0.2s ease;
-    box-shadow: 0 2px 10px rgba(0, 105, 148, 0.3);
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -202,7 +191,7 @@ main {
 }
 
 #like-count {
-    font-size: 1rem; /* Smaller font */
+    font-size: 1rem;
     color: #006994;
     font-weight: 600;
 }
@@ -212,14 +201,13 @@ footer {
     grid-area: footer;
     background-color: #006994;
     color: rgba(255, 255, 255, 0.9);
-    padding: 0.5rem; /* Reduced padding */
+    padding: 0.5rem;
     text-align: center;
-    font-size: 0.8rem; /* Smaller font */
-    height: 40px; /* Reduced height */
+    font-size: 0.8rem;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: auto; /* Push to bottom */
 }
 
 /* Responsive Design */
@@ -233,41 +221,46 @@ footer {
             "text"
             "interaction";
     }
-    
+
     .image-container, #fact-text {
         height: auto;
     }
-    
+
     #fact-text {
         padding: 1.5rem;
+    }
+
+    #like-btn-container {
+        position: absolute;
+        top: 10px;
+        right: 10px;
     }
 }
 
 @media (max-width: 768px) {
     body {
-        overflow-y: auto;
+        height: 100vh; /* Full height for smaller screens */
     }
-    
-    main {
-        height: auto;
-        min-height: calc(100vh - 100px);
-    }
-    
+
     header {
         padding: 0.6rem 1rem;
     }
-    
+
     #fact-title {
         font-size: 1.6rem;
     }
-    
+
     #fact-text {
         font-size: 1.1rem;
     }
-    
+
     #fact-container {
         padding: 1rem;
         gap: 1rem;
+    }
+
+    #like-btn {
+        width: 100%;
     }
 }
 
@@ -276,24 +269,24 @@ footer {
         font-size: 1.2rem;
         height: 50px;
     }
-    
+
     footer {
         height: 35px;
     }
-    
+
     main {
-        min-height: calc(100vh - 85px);
+        min-height: 0;
     }
-    
+
     #fact-title {
         font-size: 1.4rem;
     }
-    
+
     #fact-text {
         font-size: 1rem;
         padding: 1rem;
     }
-    
+
     #like-btn {
         width: 90%;
     }

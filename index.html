@@ -2,13 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Daily Shark Facts</title>
   <link rel="stylesheet" href="styles.css" />
-
-  <!-- Firebase CDN (optional, not used in current logic) -->
-  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js"></script>
 </head>
 <body>
   <header>
@@ -21,17 +17,14 @@
         <h2>Shark Fact of the Day</h2>
       </div>
 
-      <div id="fact-text">
-        <!-- Shark fact text will go here -->
-      </div>
+      <div id="fact-text"></div>
 
       <div class="image-container">
-        <img id="shark-img" alt="Shark Image" />
+        <img id="shark-img" alt="Shark Image" loading="lazy" />
       </div>
 
       <div id="like-btn-container">
         <button id="like-btn" aria-label="Like this shark fact">Like</button>
-        <button id="next-btn" aria-label="Next shark fact">Next Fact</button>
         <div id="like-count">Likes: 0</div>
       </div>
     </div>

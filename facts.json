@@ -1,39 +1,47 @@
 [
-    {
-      "fact": "The whale shark is the largest fish in the world, growing up to 40 feet long!",
-      "image": "images/whale-shark-1.jpg" 
-    },
-    {
-      "fact": "Sharks have been around for over 400 million years, long before dinosaurs existed!",
-      "image": "shark.jpg" 
-    },
-    {
-      "fact": "Great white sharks can swim at speeds of up to 25 miles per hour!",
-      "image": "great-white-shark.jpg"  
-    },
-    {
-      "fact": "Hammerhead sharks have 360-degree vision, allowing them to see in almost every direction at once!",
-      "image": "hammerhead-shark.jpg" 
-    },
-    {
-      "fact": "The shortest shark in the world is the dwarf lanternshark, measuring only about 7.9 inches long!",
-      "image": "dwarf-lantern-shark.jpg"  
-    },
-    {
-      "fact": "Sharks don’t have bones; their skeletons are made of cartilage, which is lighter and more flexible.",
-      "image": "shark-skeleton.jpg" 
-    },
-    {
-      "fact": "Mako sharks are the fastest sharks, reaching speeds of 60 miles per hour!",
-      "image": "mako-shark.jpg"  
-    },
-    {
-      "fact": "Sharks can sense an electrical field emitted by their prey, helping them detect animals hiding in the sand!",
-      "image": "shark-sensing.jpg" 
-    },
-    {
-      "fact": "Sharks can go weeks or even months without eating, depending on the species and their environment!",
-      "image": "shark-hunting.jpg"  
-    }
-  ]
-  
+  {
+    "date": "15th May",
+    "fact": "The whale shark is the largest fish in the world, growing up to 40 feet long!",
+    "image": "images/whale-shark-1.jpg"
+  },
+  {
+    "date": "16th May",
+    "fact": "Sharks have been around for over 400 million years, long before dinosaurs existed!",
+    "image": "images/shark.jpg"
+  },
+  {
+    "date": "17th May",
+    "fact": "Great white sharks can swim at speeds of up to 25 miles per hour!",
+    "image": "images/great-white-shark.jpg"
+  },
+  {
+    "date": "18th May",
+    "fact": "Hammerhead sharks have 360-degree vision, allowing them to see in almost every direction at once!",
+    "image": "images/hammerhead-shark.jpg"
+  },
+  {
+    "date": "19th May",
+    "fact": "The shortest shark in the world is the dwarf lanternshark, measuring only about 7.9 inches long!",
+    "image": "images/dwarf-lantern-shark.jpg"
+  },
+  {
+    "date": "20th May",
+    "fact": "Sharks don’t have bones; their skeletons are made of cartilage, which is lighter and more flexible.",
+    "image": "images/shark-skeleton.jpg"
+  },
+  {
+    "date": "21st May",
+    "fact": "Mako sharks are the fastest sharks, reaching speeds of 60 miles per hour!",
+    "image": "images/mako-shark.jpg"
+  },
+  {
+    "date": "22nd May",
+    "fact": "Sharks can sense an electrical field emitted by their prey, helping them detect animals hiding in the sand!",
+    "image": "images/shark-sensing.jpg"
+  },
+  {
+    "date": "23rd May",
+    "fact": "Sharks can go weeks or even months without eating, depending on the species and their environment!",
+    "image": "images/shark-hunting.jpg"
+  }
+]

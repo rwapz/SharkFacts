@@ -1,42 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daily Shark Facts</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Daily Shark Facts</title>
+  <link rel="stylesheet" href="styles.css" />
 
-    <!-- Firebase CDN links -->
-    <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js"></script>
+  <!-- Firebase CDN (optional, not used in current logic) -->
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js"></script>
 </head>
 <body>
-    <header>
-        <h1>Daily Shark Facts</h1>
-    </header>
-    <main>
-        <div id="fact-container">
-            <div id="fact-title">
-                <h2>Shark Fact of the Day</h2>
-            </div>
-            <div id="fact-text">
-                <!-- Shark fact text will appear here -->
-            </div>
-            <div class="image-container">
-                <img id="shark-img" alt="Shark Image" />
-            </div>
-            <div class="interaction">
-                <button id="like-btn">Like</button>
-                <div id="like-count">Likes: 0</div>
-                <!-- Temporary Next button for testing -->
-                <button id="next-btn">Next Fact</button> <!-- COMMENT OUT AFTER TESTING -->
-            </div>
-        </div>
-    </main>
-    <footer>
-        <p>&copy; 2025 Daily Shark Facts</p>
-    </footer>
+  <header>
+    <h1>Daily Shark Facts</h1>
+  </header>
 
-    <script src="script.js" defer></script>
+  <main>
+    <div id="fact-container">
+      <div id="fact-title">
+        <h2>Shark Fact of the Day</h2>
+      </div>
+
+      <div id="fact-text">
+        <!-- Shark fact text will go here -->
+      </div>
+
+      <div class="image-container">
+        <img id="shark-img" alt="Shark Image" />
+      </div>
+
+      <div id="like-btn-container">
+        <button id="like-btn" aria-label="Like this shark fact">Like</button>
+        <button id="next-btn" aria-label="Next shark fact">Next Fact</button>
+        <div id="like-count">Likes: 0</div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Daily Shark Facts</p>
+  </footer>
+
+  <script src="script.js" defer></script>
 </body>
 </html>

@@ -13,18 +13,14 @@
 
   <main>
     <div id="fact-container">
-      <div id="fact-title">
-        <h2>Shark Fact of the Day</h2>
-      </div>
-
+      <div id="fact-title"></div>
       <div id="fact-text"></div>
-
       <div class="image-container">
-        <img id="shark-img" alt="Shark Image" loading="lazy" />
+        <img id="shark-img" alt="Shark Image" />
       </div>
-
       <div id="like-btn-container">
-        <button id="like-btn" aria-label="Like this shark fact">Like</button>
+        <button id="like-btn">🦈 Like</button>
+        <button id="random-btn">Random Fact</button>
         <div id="like-count">Likes: 0</div>
       </div>
     </div>
@@ -34,6 +30,16 @@
     <p>&copy; 2025 Daily Shark Facts</p>
   </footer>
 
+  <!-- Modal for Random Fact -->
+  <div id="random-fact-modal" class="hidden">
+    <div id="modal-content">
+      <button id="modal-close-btn" title="Close">&times;</button>
+      <h2>Random Shark Fact</h2>
+      <p id="random-fact-text"></p>
+    </div>
+  </div>
+
+  <audio id="like-sound" src="sounds/like-sound.wav" preload="auto"></audio>
   <script src="script.js" defer></script>
 </body>
 </html>

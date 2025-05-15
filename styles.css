@@ -1,4 +1,4 @@
-/* Base Reset & Layout */
+/* Reset and base styles */
 * {
   margin: 0;
   padding: 0;
@@ -11,6 +11,7 @@ html, body {
   font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
   background-color: #f6f9fc;
   color: #333;
+  position: relative;
 }
 
 body {
@@ -20,9 +21,9 @@ body {
     "header"
     "content"
     "footer";
+  z-index: 1;
 }
 
-/* Header */
 header {
   grid-area: header;
   background-color: #006994;
@@ -30,39 +31,31 @@ header {
   padding: 0.4rem 1rem;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  z-index: 10;
+  justify-content: center;
   height: 60px;
   font-size: 1.2rem;
   font-weight: 600;
-  text-align: center;
 }
 
 header::before {
   content: "🦈";
   font-size: 1.4rem;
-  margin-right: 1rem;
+  margin-right: 0.5rem;
 }
 
-header::after {
-  content: "";
-  flex: 1;
-}
-
-/* Main Section */
 main {
   grid-area: content;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding: 0.5rem;
+  padding: 1rem;
   height: calc(100vh - 100px);
-  overflow: hidden;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-/* Fact Container */
 #fact-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -70,30 +63,27 @@ main {
   grid-template-areas:
     "title title"
     "text image"
-    "interaction interaction";
-  gap: 0.5rem;
-  padding: 0.5rem;
-  max-width: 1100px;
+    "like-btn like-count";
+  gap: 0.75rem;
   width: 100%;
   height: 100%;
 }
 
-/* Title */
 #fact-title {
   grid-area: title;
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   color: #006994;
   text-align: center;
   border-bottom: 2px solid #e0e0e0;
-  padding-bottom: 0.4rem;
+  padding-bottom: 0.5rem;
+  font-weight: 600;
 }
 
-/* Fact Text */
 #fact-text {
   grid-area: text;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   line-height: 1.6;
-  background-color: #ffffff;
+  background-color: #fff;
   padding: 1.5rem;
   border-radius: 12px;
   border-left: 5px solid #006994;
@@ -104,21 +94,8 @@ main {
   text-align: center;
   overflow-y: auto;
   height: 100%;
-  max-height: none;
-  transition: box-shadow 0.3s ease;
-  opacity: 1;
-  transition: opacity 0.6s ease-in-out;
 }
 
-#fact-text.fade-out {
-  opacity: 0;
-}
-
-#fact-text:hover {
-  box-shadow: 0 12px 28px rgba(0, 105, 148, 0.15);
-}
-
-/* Image Container */
 .image-container {
   grid-area: image;
   display: flex;
@@ -126,7 +103,6 @@ main {
   justify-content: center;
   padding: 0.5rem;
   height: 100%;
-  max-height: none;
 }
 
 #shark-img {
@@ -136,64 +112,58 @@ main {
   border-radius: 8px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
   border: 3px solid #006994;
-  opacity: 1;
-  transition: opacity 0.6s ease-in-out;
 }
 
-#shark-img.fade-out {
-  opacity: 0;
-}
-
-/* Interaction */
 #like-btn-container {
-  grid-area: interaction;
+  grid-area: like-btn;
+  position: relative;
   display: flex;
-  justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  padding-top: 0.25rem;
+  gap: 1rem;
+}
+
+#like-btn, #random-btn {
+  font-size: 1rem;
+  padding: 0.5rem 1.2rem;
+  border-radius: 30px;
+  cursor: pointer;
+  border: none;
+  color: white;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  user-select: none;
 }
 
 #like-btn {
-  font-size: 0.9rem;
-  padding: 0.4rem 1.2rem;
-  border-radius: 30px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  border: none;
   background-color: #006994;
-  color: white;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
 }
 
-#like-btn::before {
-  content: "🦈";
-}
-
-#like-btn:hover {
+#like-btn:hover:not(:disabled) {
   background-color: #005275;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 105, 148, 0.4);
-}
-
-#like-btn:active {
-  transform: translateY(0);
 }
 
 #like-btn:disabled {
-  opacity: 0.8;
+  opacity: 0.7;
   cursor: not-allowed;
-  transform: none;
 }
 
-/* Like Count */
+#random-btn {
+  background-color: #0099cc;
+}
+
+#random-btn:hover {
+  background-color: #007bb5;
+  transform: translateY(-2px);
+}
+
 #like-count {
-  font-size: 0.9rem;
-  color: #006994;
+  grid-area: like-count;
+  font-size: 1rem;
   font-weight: 600;
+  color: #006994;
+  padding-left: 0.75rem;
+  display: flex;
+  align-items: center;
 }
 
 /* Footer */
@@ -201,16 +171,89 @@ footer {
   grid-area: footer;
   background-color: #006994;
   color: rgba(255, 255, 255, 0.9);
-  padding: 0.4rem;
   text-align: center;
-  font-size: 0.7rem;
-  height: 40px;
+  padding: 0.5rem;
+  font-size: 0.8rem;
+}
+
+/* Like button pulse animation */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+/* Bubble rise animation */
+@keyframes bubble {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-40px);
+    opacity: 0;
+  }
+}
+
+.liked-animation {
+  animation: pulse 0.5s ease;
+}
+
+.bubble {
+  position: absolute;
+  bottom: 0;
+  width: 8px;
+  height: 8px;
+  background-color: #00bcd4;
+  border-radius: 50%;
+  opacity: 0;
+  animation: bubble 1s forwards;
+}
+
+/* Modal styles */
+.hidden {
+  display: none;
+}
+
+#random-fact-modal {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* Responsive: Tablets */
+#modal-content {
+  background: white;
+  padding: 1.5rem 2rem;
+  border-radius: 12px;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  position: relative;
+  text-align: center;
+}
+
+#modal-close-btn {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  color: #006994;
+  user-select: none;
+  transition: color 0.2s ease;
+}
+
+#modal-close-btn:hover {
+  color: #004d66;
+}
+
 @media (max-width: 768px) {
   #fact-container {
     grid-template-columns: 1fr;
@@ -219,76 +262,10 @@ footer {
       "title"
       "image"
       "text"
-      "interaction";
-    gap: 0.75rem;
-  }
-
-  .image-container,
-  #fact-text {
-    height: auto;
-    max-height: none;
-  }
-
-  #fact-text {
-    padding: 1rem;
-    font-size: 1rem;
-  }
-
-  #fact-title {
-    font-size: 1.2rem;
-  }
-
-  #like-btn {
-    font-size: 0.9rem;
-    padding: 0.4rem 1.2rem;
-    width: 100%;
-    justify-content: center;
+      "like-btn";
   }
 
   #like-count {
-    font-size: 0.9rem;
+    display: none;
   }
-
-  header {
-    height: 50px;
-    font-size: 1rem;
-  }
-
-  footer {
-    height: 35px;
-    font-size: 0.65rem;
-  }
-}
-
-/* Responsive: Phones */
-@media (max-width: 480px) {
-  #fact-title {
-    font-size: 1.1rem;
-  }
-
-  #fact-text {
-    font-size: 0.95rem;
-    padding: 0.8rem;
-  }
-
-  #like-btn {
-    font-size: 0.85rem;
-    padding: 0.3rem 1rem;
-    width: 90%;
-  }
-
-  #like-count {
-    font-size: 0.85rem;
-  }
-}
-
-/* Animation for like button */
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.2); }
-  100% { transform: scale(1); }
-}
-
-.liked-animation {
-  animation: pulse 0.5s ease;
 }

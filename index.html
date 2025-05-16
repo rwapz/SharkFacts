@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Daily Shark Facts</title>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -12,30 +13,33 @@
   </header>
 
   <main>
-    <div id="fact-container">
-      <div id="fact-title"></div>
-      <div id="fact-text"></div>
-      <div class="image-container">
+    <section id="fact-container" aria-label="Daily shark fact">
+      <h2 id="fact-title" tabindex="0">Loading...</h2>
+      <p id="fact-text">Loading fact...</p>
+      <div class="image-container" aria-label="Image of shark">
         <img id="shark-img" alt="Shark Image" />
       </div>
       <div id="like-btn-container">
-        <button id="like-btn">🦈 Like</button>
-        <button id="random-btn">Random Fact</button>
-        <div id="like-count">Likes: 0</div>
+        <button id="like-btn" aria-pressed="false" aria-describedby="like-count">🦈 Like</button>
+        <button id="random-btn">🎲 Random Fact</button>
+        <span id="like-count" aria-live="polite" aria-atomic="true" style="display:none;">Likes: 0</span>
       </div>
-    </div>
+    </section>
   </main>
 
   <footer>
     <p>&copy; 2025 Daily Shark Facts</p>
   </footer>
 
-  <!-- Modal for Random Fact -->
-  <div id="random-fact-modal" class="hidden">
+  <!-- Random Fact Modal -->
+  <div id="random-fact-modal" class="hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
     <div id="modal-content">
-      <button id="modal-close-btn" title="Close">&times;</button>
-      <h2>Random Shark Fact</h2>
+      <h3 id="modal-title">Random Shark Fact</h3>
       <p id="random-fact-text"></p>
+      <div class="modal-buttons">
+        <button id="show-another-btn">Show Another</button>
+        <button id="modal-close-btn" aria-label="Close modal">&times;</button>
+      </div>
     </div>
   </div>
 

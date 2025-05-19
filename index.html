@@ -21,7 +21,6 @@
       </div>
       <div id="like-btn-container">
         <button id="like-btn" aria-pressed="false" aria-describedby="like-count">🦈 Like</button>
-        <button id="random-btn">🎲 Random Fact</button>
         <span id="like-count" aria-live="polite" aria-atomic="true" style="display:none;">Likes: 0</span>
       </div>
     </section>
@@ -30,18 +29,6 @@
   <footer>
     <p>&copy; 2025 Daily Shark Facts</p>
   </footer>
-
-  <!-- Random Fact Modal -->
-  <div id="random-fact-modal" class="hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-    <div id="modal-content">
-      <h3 id="modal-title">Random Shark Fact</h3>
-      <p id="random-fact-text"></p>
-      <div class="modal-buttons">
-        <button id="show-another-btn">Show Another</button>
-        <button id="modal-close-btn" aria-label="Close modal">&times;</button>
-      </div>
-    </div>
-  </div>
 
   <audio id="like-sound" src="sounds/like-sound.wav" preload="auto"></audio>
   <script src="script.js" defer></script>

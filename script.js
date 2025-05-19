@@ -15,15 +15,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const likeCountSpan = document.getElementById('like-count');
   const likeSound = document.getElementById('like-sound');
 
-  const randomBtn = document.getElementById('random-btn');
-  const modal = document.getElementById('random-fact-modal');
-  const modalText = document.getElementById('random-fact-text');
-  const modalCloseBtn = document.getElementById('modal-close-btn');
-  const showAnotherBtn = document.getElementById('show-another-btn');
-
-  let currentFactIndex = 0;
-  let randomFacts = [];
-
   function getTodayFormattedDate() {
     const d = new Date();
     const day = d.getDate();
@@ -66,14 +57,14 @@ document.addEventListener("DOMContentLoaded", () => {
     img.src = fact.image;
     img.alt = fact.fact;
 
-    currentFactIndex = index;
-
     if (hasLikedToday(index)) {
       likeBtn.disabled = true;
       likeBtn.setAttribute('aria-pressed', 'true');
+      likeBtn.classList.add('gold');
     } else {
       likeBtn.disabled = false;
       likeBtn.setAttribute('aria-pressed', 'false');
+      likeBtn.classList.remove('gold');
     }
 
     const likes = getLikesCount(index);
@@ -85,89 +76,24 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  function createBubble(parent) {
-    const bubble = document.createElement('div');
-    bubble.className = 'bubble';
-    bubble.style.left = `${Math.random() * parent.offsetWidth}px`;
-    parent.appendChild(bubble);
-    bubble.addEventListener('animationend', () => bubble.remove());
-  }
+  let todayIndex = facts.findIndex(f => f.date === getTodayFormattedDate());
+  if (todayIndex < 0) todayIndex = 0;
+  displayFact(todayIndex);
 
-  function handleLikeButton() {
-    if (hasLikedToday(currentFactIndex)) return;
-
-    markLikedToday(currentFactIndex);
-
-    let likes = getLikesCount(currentFactIndex);
+  likeBtn.addEventListener('click', () => {
+    if (hasLikedToday(todayIndex)) return;
+    markLikedToday(todayIndex);
+    let likes = getLikesCount(todayIndex);
     likes++;
-    setLikesCount(currentFactIndex, likes);
-
-    likeCountSpan.textContent = `Likes: ${likes}`;
-    likeCountSpan.style.display = 'inline';
+    setLikesCount(todayIndex, likes);
+    likeBtn.classList.add('gold');
     likeBtn.disabled = true;
     likeBtn.setAttribute('aria-pressed', 'true');
-    likeBtn.classList.add('liked-animation');
-    for(let i=0; i<5; i++) createBubble(likeBtn);
-    if(likeSound) {
+    likeCountSpan.textContent = `Likes: ${likes}`;
+    likeCountSpan.style.display = 'inline';
+    if (likeSound) {
       likeSound.currentTime = 0;
       likeSound.play();
     }
-    setTimeout(() => likeBtn.classList.remove('liked-animation'), 500);
-  }
-
-  likeBtn.addEventListener('click', handleLikeButton);
-
-  // Show today's fact on page load
-  const todayIndex = facts.findIndex(f => f.date === getTodayFormattedDate());
-  displayFact(todayIndex >= 0 ? todayIndex : 0);
-
-  // Load random facts but do NOT show modal automatically
-  fetch('random_facts.json')
-    .then(response => response.json())
-    .then(data => {
-      randomFacts = data;
-    })
-    .catch(err => {
-      console.error('Failed to load random facts:', err);
-      randomFacts = ["Failed to load random facts. Try again later!"];
-    });
-
-  function showRandomFact() {
-    if(randomFacts.length === 0) {
-      modalText.textContent = "Loading random facts...";
-      return;
-    }
-    const idx = Math.floor(Math.random() * randomFacts.length);
-    modalText.textContent = randomFacts[idx];
-  }
-
-  randomBtn.addEventListener('click', () => {
-    showRandomFact();
-    modal.classList.remove('hidden');  // Show modal only on button click
-    modalCloseBtn.focus();
   });
-
-  modalCloseBtn.addEventListener('click', () => {
-    modal.classList.add('hidden');      // Hide modal on close
-    randomBtn.focus();
-  });
-
-  showAnotherBtn.addEventListener('click', () => {
-    showRandomFact();
-  });
-
-  modal.addEventListener('click', (e) => {
-    if(e.target === modal) {
-      modal.classList.add('hidden');
-      randomBtn.focus();
-    }
-  });
-
-  document.addEventListener('keydown', (e) => {
-    if(e.key === 'Escape' && !modal.classList.contains('hidden')) {
-      modal.classList.add('hidden');
-      randomBtn.focus();
-    }
-  });
-
 });

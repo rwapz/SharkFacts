@@ -11,9 +11,17 @@ document.addEventListener("DOMContentLoaded", () => {
     { date: "23rd May", fact: "Sharks can go weeks or even months without eating, depending on the species and their environment!", image: "images/shark-hunting.jpg" }
   ];
 
+  let randomFacts = [];
+  let randomOrder = [];
+  let randomIndex = 0;
+  let randomFactsLoaded = false;
+
   const likeBtn = document.getElementById('like-btn');
   const likeCountSpan = document.getElementById('like-count');
   const likeSound = document.getElementById('like-sound');
+  const randomBtn = document.getElementById('random-btn');
+  const backBtn = document.getElementById('back-btn');
+  const messageBtn = document.getElementById('message-btn');
 
   function getTodayFormattedDate() {
     const d = new Date();
@@ -24,29 +32,29 @@ document.addEventListener("DOMContentLoaded", () => {
     return `${day}${suffix(day)} ${month}`;
   }
 
-  function getLikeStorageKey(factIndex) {
-    return `sharkfact-liked-${factIndex}`;
+  function getLikeStorageKey(factIndex, isRandom) {
+    return isRandom ? `sharkfact-liked-random-${factIndex}` : `sharkfact-liked-${factIndex}`;
   }
 
-  function hasLikedToday(factIndex) {
-    const key = getLikeStorageKey(factIndex);
+  function hasLikedToday(factIndex, isRandom) {
+    const key = getLikeStorageKey(factIndex, isRandom);
     const storedDate = localStorage.getItem(key);
     const today = new Date().toISOString().slice(0,10);
     return storedDate === today;
   }
 
-  function markLikedToday(factIndex) {
-    const key = getLikeStorageKey(factIndex);
+  function markLikedToday(factIndex, isRandom) {
+    const key = getLikeStorageKey(factIndex, isRandom);
     const today = new Date().toISOString().slice(0,10);
     localStorage.setItem(key, today);
   }
 
-  function getLikesCount(factIndex) {
-    return parseInt(localStorage.getItem(`sharkfact-likes-${factIndex}`)) || 0;
+  function getLikesCount(factIndex, isRandom) {
+    return parseInt(localStorage.getItem(isRandom ? `sharkfact-likes-random-${factIndex}` : `sharkfact-likes-${factIndex}`)) || 0;
   }
 
-  function setLikesCount(factIndex, count) {
-    localStorage.setItem(`sharkfact-likes-${factIndex}`, count);
+  function setLikesCount(factIndex, count, isRandom) {
+    localStorage.setItem(isRandom ? `sharkfact-likes-random-${factIndex}` : `sharkfact-likes-${factIndex}`, count);
   }
 
   function displayFact(index) {
@@ -57,7 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
     img.src = fact.image;
     img.alt = fact.fact;
 
-    if (hasLikedToday(index)) {
+    if (hasLikedToday(index, false)) {
       likeBtn.disabled = true;
       likeBtn.setAttribute('aria-pressed', 'true');
       likeBtn.classList.add('gold');
@@ -67,33 +75,152 @@ document.addEventListener("DOMContentLoaded", () => {
       likeBtn.classList.remove('gold');
     }
 
-    const likes = getLikesCount(index);
+    const likes = getLikesCount(index, false);
     if (likes > 0) {
       likeCountSpan.textContent = `Likes: ${likes}`;
       likeCountSpan.style.display = 'inline';
     } else {
       likeCountSpan.style.display = 'none';
     }
+
+    // Keep message button always present, but disabled for daily facts
+    messageBtn.disabled = true;
+  }
+
+  function displayRandomFact(index) {
+    const factText = randomFacts[randomOrder[index]];
+    document.getElementById('fact-title').textContent = `Random Shark Fact`;
+    document.getElementById('fact-text').textContent = factText;
+    const img = document.getElementById('shark-img');
+    img.src = "images/random.jpg";
+    img.alt = factText;
+
+    if (hasLikedToday(randomOrder[index], true)) {
+      likeBtn.disabled = true;
+      likeBtn.setAttribute('aria-pressed', 'true');
+      likeBtn.classList.add('gold');
+    } else {
+      likeBtn.disabled = false;
+      likeBtn.setAttribute('aria-pressed', 'false');
+      likeBtn.classList.remove('gold');
+    }
+
+    const likes = getLikesCount(randomOrder[index], true);
+    if (likes > 0) {
+      likeCountSpan.textContent = `Likes: ${likes}`;
+      likeCountSpan.style.display = 'inline';
+    } else {
+      likeCountSpan.style.display = 'none';
+    }
+
+    // Enable message button for random facts
+    messageBtn.disabled = false;
+  }
+
+  // Fisher-Yates shuffle
+  function shuffleArray(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
   }
 
   let todayIndex = facts.findIndex(f => f.date === getTodayFormattedDate());
   if (todayIndex < 0) todayIndex = 0;
+  let currentIndex = todayIndex;
+  let showingRandom = false;
+
   displayFact(todayIndex);
 
   likeBtn.addEventListener('click', () => {
-    if (hasLikedToday(todayIndex)) return;
-    markLikedToday(todayIndex);
-    let likes = getLikesCount(todayIndex);
-    likes++;
-    setLikesCount(todayIndex, likes);
-    likeBtn.classList.add('gold');
-    likeBtn.disabled = true;
-    likeBtn.setAttribute('aria-pressed', 'true');
-    likeCountSpan.textContent = `Likes: ${likes}`;
-    likeCountSpan.style.display = 'inline';
+    if (showingRandom) {
+      const idx = randomOrder[randomIndex];
+      if (hasLikedToday(idx, true)) return;
+      markLikedToday(idx, true);
+      let likes = getLikesCount(idx, true);
+      likes++;
+      setLikesCount(idx, likes, true);
+      likeBtn.classList.add('gold');
+      likeBtn.disabled = true;
+      likeBtn.setAttribute('aria-pressed', 'true');
+      likeCountSpan.textContent = `Likes: ${likes}`;
+      likeCountSpan.style.display = 'inline';
+    } else {
+      if (hasLikedToday(currentIndex, false)) return;
+      markLikedToday(currentIndex, false);
+      let likes = getLikesCount(currentIndex, false);
+      likes++;
+      setLikesCount(currentIndex, likes, false);
+      likeBtn.classList.add('gold');
+      likeBtn.disabled = true;
+      likeBtn.setAttribute('aria-pressed', 'true');
+      likeCountSpan.textContent = `Likes: ${likes}`;
+      likeCountSpan.style.display = 'inline';
+    }
     if (likeSound) {
       likeSound.currentTime = 0;
       likeSound.play();
+    }
+  });
+
+  randomBtn.addEventListener('click', () => {
+    if (!randomFactsLoaded) {
+      fetch('random_fact.json')
+        .then(res => res.json())
+        .then(data => {
+          randomFacts = data;
+          randomOrder = shuffleArray([...Array(randomFacts.length).keys()]);
+          randomIndex = 0;
+          randomFactsLoaded = true;
+          showingRandom = true;
+          displayRandomFact(randomIndex);
+          backBtn.style.display = 'inline-block';
+          randomBtn.textContent = "Next Random Fact";
+        })
+        .catch(() => {
+          alert("Couldn't load random facts.");
+        });
+    } else {
+      randomIndex++;
+      if (randomIndex >= randomOrder.length) {
+        alert("You've seen all the random facts! They will now reshuffle.");
+        randomOrder = shuffleArray([...Array(randomFacts.length).keys()]);
+        randomIndex = 0;
+      }
+      showingRandom = true;
+      displayRandomFact(randomIndex);
+      backBtn.style.display = 'inline-block';
+      randomBtn.textContent = "Next Random Fact";
+    }
+  });
+
+  backBtn.addEventListener('click', () => {
+    showingRandom = false;
+    displayFact(todayIndex);
+    backBtn.style.display = 'none';
+    randomBtn.textContent = "🎲 Random Fact";
+  });
+
+  // Share/copy for message button
+  messageBtn.addEventListener('click', () => {
+    if (messageBtn.disabled) return;
+    const factText = document.getElementById('fact-text').textContent;
+    if (navigator.share) {
+      navigator.share({
+        title: "Random Shark Fact",
+        text: factText,
+        url: window.location.href
+      }).catch(() => {});
+    } else if (navigator.clipboard) {
+      navigator.clipboard.writeText(factText).then(() => {
+        messageBtn.textContent = "✅ Copied!";
+        setTimeout(() => {
+          messageBtn.textContent = "💬 Message";
+        }, 1200);
+      });
+    } else {
+      alert("Copy this fact:\n\n" + factText);
     }
   });
 });

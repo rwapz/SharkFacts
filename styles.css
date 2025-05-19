@@ -74,7 +74,7 @@ main {
   outline-offset: 2px;
 }
 
-/* Improved Fact Text with Merriweather font */
+/* Fact Text */
 #fact-text {
   grid-area: text;
   padding: 1.8rem 2rem;
@@ -93,7 +93,7 @@ main {
   overflow-y: auto;
 }
 
-/* Consistent Shark Image Container */
+/* Shark Image Container */
 .image-container {
   grid-area: image;
   width: 320px;
@@ -108,7 +108,7 @@ main {
   background: #e6f2fb;
 }
 
-/* Fixed size image with object-fit */
+/* Shark Image */
 #shark-img {
   width: 100%;
   height: 100%;
@@ -118,7 +118,7 @@ main {
   pointer-events: none;
 }
 
-/* Buttons Container */
+/* Like Button Container */
 #like-btn-container {
   grid-area: like-btn;
   display: flex;
@@ -129,8 +129,8 @@ main {
   z-index: 10;
 }
 
-/* Like and Random Fact buttons */
-#like-btn, #random-btn {
+/* All Buttons */
+#like-btn, #random-btn, #back-btn, #message-btn {
   position: relative;
   z-index: 10;
   cursor: pointer;
@@ -141,62 +141,58 @@ main {
   border-radius: 30px;
   padding: 0.6rem 1.4rem;
   font-size: 1rem;
-  transition: transform 0.2s ease, background-color 0.3s ease;
+  margin: 0 0.3rem;
+  transition: transform 0.2s, background-color 0.3s, box-shadow 0.2s;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
 }
 
-#like-btn:hover, #random-btn:hover {
-  transform: scale(1.05);
+#like-btn.gold {
+  background: #ffb74d;
+  color: #333;
+}
+
+#like-btn:hover:not(:disabled),
+#random-btn:hover:not(:disabled),
+#back-btn:hover:not(:disabled),
+#message-btn:hover:not(:disabled) {
+  transform: scale(1.07);
   background-color: #005377;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
 }
 
 #like-btn:disabled {
-  opacity: 0.5;
+  opacity: 0.6;
+  background-color: #b0b0b0;
   cursor: not-allowed;
 }
 
 #random-btn {
-  background-color: #009688;
+  background: #009688;
+}
+#random-btn:hover:not(:disabled) {
+  background: #00796b;
+}
+#back-btn {
+  background: #888;
+}
+#back-btn:hover:not(:disabled) {
+  background: #444;
+}
+#message-btn {
+  background: #009688;
+}
+#message-btn:hover:not(:disabled) {
+  background: #00796b;
 }
 
-#random-btn:hover {
-  background-color: #00796b;
-}
-
-/* Hidden Likes count for now */
+/* Like Count */
 #like-count {
   grid-area: like-count;
   font-size: 1rem;
   color: #006994;
   user-select: none;
   display: none;
-}
-
-/* Bubble effect */
-.bubble {
-  pointer-events: none;
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  background: #00bcd4;
-  border-radius: 50%;
-  animation: bubble 1s forwards;
-}
-
-@keyframes bubble {
-  to {
-    transform: translateY(-40px);
-    opacity: 0;
-  }
-}
-
-.liked-animation {
-  animation: pulse 0.5s ease;
-}
-
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.2); }
-  100% { transform: scale(1); }
+  font-weight: bold;
 }
 
 /* Footer */
@@ -210,87 +206,32 @@ footer {
   user-select: none;
 }
 
-/* Modal styles */
-.hidden {
-  display: none;
-}
-
-#random-fact-modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.65);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-
-#modal-content {
-  background: #fff;
-  padding: 2rem 2.5rem;
-  border-radius: 14px;
-  max-width: 400px;
-  width: 90%;
-  text-align: center;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
-  position: relative;
-  animation: fadeInScale 0.3s ease forwards;
-}
-
-#modal-title {
-  margin-bottom: 1rem;
-  color: #006994;
-  font-size: 1.5rem;
-  font-weight: 700;
-  font-family: 'Merriweather', serif;
-}
-
-#random-fact-text {
-  font-size: 1.1rem;
-  margin-bottom: 1.5rem;
-  color: #01445e;
-  font-family: 'Merriweather', serif;
-  line-height: 1.5;
-}
-
-/* Modal buttons */
-.modal-buttons {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-}
-
-#show-another-btn, #modal-close-btn {
-  background: #006994;
-  border: none;
-  border-radius: 30px;
-  color: white;
-  padding: 0.5rem 1.5rem;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.25s ease;
-}
-
-#show-another-btn:hover, #modal-close-btn:hover {
-  background-color: #005377;
-}
-
-/* Close button styling */
-#modal-close-btn {
-  font-size: 1.8rem;
-  line-height: 1;
-  padding: 0 1rem;
-  user-select: none;
-}
-
-/* Fade-in scale animation */
-@keyframes fadeInScale {
-  0% {
-    opacity: 0;
-    transform: scale(0.8);
+/* Responsive adjustments */
+@media (max-width: 800px) {
+  #fact-container {
+    grid-template-areas:
+      "title"
+      "image"
+      "text"
+      "like-btn"
+      "like-count";
+    grid-template-columns: 1fr;
+    max-width: 98vw;
+    padding: 1rem;
   }
-  100% {
-    opacity: 1;
-    transform: scale(1);
+  .image-container {
+    width: 95vw;
+    height: 35vw;
+    min-height: 120px;
+    max-width: 98vw;
   }
+  #fact-text {
+    padding: 1rem 0.5rem;
+    font-size: 1.1rem;
+  }
+#message-btn:disabled {
+  opacity: 0.5;
+  background-color: #b0b0b0;
+  cursor: not-allowed;
+}
 }

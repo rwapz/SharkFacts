@@ -22,6 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const randomBtn = document.getElementById('random-btn');
   const backBtn = document.getElementById('back-btn');
   const messageBtn = document.getElementById('message-btn');
+  const toast = document.getElementById('toast');
 
   function getTodayFormattedDate() {
     const d = new Date();
@@ -57,6 +58,15 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem(isRandom ? `sharkfact-likes-random-${factIndex}` : `sharkfact-likes-${factIndex}`, count);
   }
 
+  function showToast(msg) {
+    if (!toast) return;
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => {
+      toast.classList.remove('show');
+    }, 1400);
+  }
+
   function displayFact(index) {
     const fact = facts[index];
     document.getElementById('fact-title').textContent = `Shark Fact for ${fact.date}`;
@@ -76,14 +86,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const likes = getLikesCount(index, false);
+    likeCountSpan.textContent = `Likes: ${likes}`;
     if (likes > 0) {
-      likeCountSpan.textContent = `Likes: ${likes}`;
-      likeCountSpan.style.display = 'inline';
+      likeCountSpan.classList.remove('invisible');
     } else {
-      likeCountSpan.style.display = 'none';
+      likeCountSpan.classList.add('invisible');
     }
 
-    // Keep message button always present, but disabled for daily facts
     messageBtn.disabled = true;
   }
 
@@ -106,14 +115,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const likes = getLikesCount(randomOrder[index], true);
+    likeCountSpan.textContent = `Likes: ${likes}`;
     if (likes > 0) {
-      likeCountSpan.textContent = `Likes: ${likes}`;
-      likeCountSpan.style.display = 'inline';
+      likeCountSpan.classList.remove('invisible');
     } else {
-      likeCountSpan.style.display = 'none';
+      likeCountSpan.classList.add('invisible');
     }
 
-    // Enable message button for random facts
     messageBtn.disabled = false;
   }
 
@@ -145,7 +153,7 @@ document.addEventListener("DOMContentLoaded", () => {
       likeBtn.disabled = true;
       likeBtn.setAttribute('aria-pressed', 'true');
       likeCountSpan.textContent = `Likes: ${likes}`;
-      likeCountSpan.style.display = 'inline';
+      likeCountSpan.classList.remove('invisible');
     } else {
       if (hasLikedToday(currentIndex, false)) return;
       markLikedToday(currentIndex, false);
@@ -156,7 +164,7 @@ document.addEventListener("DOMContentLoaded", () => {
       likeBtn.disabled = true;
       likeBtn.setAttribute('aria-pressed', 'true');
       likeCountSpan.textContent = `Likes: ${likes}`;
-      likeCountSpan.style.display = 'inline';
+      likeCountSpan.classList.remove('invisible');
     }
     if (likeSound) {
       likeSound.currentTime = 0;
@@ -184,7 +192,7 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       randomIndex++;
       if (randomIndex >= randomOrder.length) {
-        alert("You've seen all the random facts! They will now reshuffle.");
+        showToast("You've seen all the random facts! Reshuffling...");
         randomOrder = shuffleArray([...Array(randomFacts.length).keys()]);
         randomIndex = 0;
       }
@@ -214,10 +222,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }).catch(() => {});
     } else if (navigator.clipboard) {
       navigator.clipboard.writeText(factText).then(() => {
-        messageBtn.textContent = "✅ Copied!";
-        setTimeout(() => {
-          messageBtn.textContent = "💬 Message";
-        }, 1200);
+        showToast("Copied to clipboard!");
       });
     } else {
       alert("Copy this fact:\n\n" + factText);

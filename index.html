@@ -6,17 +6,8 @@
   <title>Daily Shark Facts</title>
   <link href="https://fonts.googleapis.com/css2?family=Merriweather&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
-  <!-- Preload images for performance -->
   <link rel="preload" as="image" href="images/random.png">
-  <link rel="preload" as="image" href="images/whale-shark-1.jpg">
-  <link rel="preload" as="image" href="images/shark.jpg">
-  <link rel="preload" as="image" href="images/great-white-shark.jpg">
-  <link rel="preload" as="image" href="images/hammerhead-shark.jpg">
-  <link rel="preload" as="image" href="images/dwarf-lantern-shark.jpg">
-  <link rel="preload" as="image" href="images/shark-skeleton.jpg">
-  <link rel="preload" as="image" href="images/mako-shark.jpg">
-  <link rel="preload" as="image" href="images/shark-sensing.jpg">
-  <link rel="preload" as="image" href="images/shark-hunting.jpg">
+  <!-- Preload daily images as needed -->
 </head>
 <body>
   <header>
@@ -26,19 +17,21 @@
   <main>
     <section id="fact-container" aria-label="Daily shark fact">
       <h2 id="fact-title" tabindex="0">Loading...</h2>
-      <p id="fact-text">Loading fact...</p>
+      <p id="fact-text" aria-live="polite" tabindex="0">Loading fact...</p>
       <div class="image-container" aria-label="Image of shark">
-        <img id="shark-img" alt="Shark Image" onerror="this.src='images/random.png';" />
+        <img id="shark-img" alt="Shark Image" loading="lazy" onerror="this.src='images/random.png';" />
       </div>
+      <hr class="divider" aria-hidden="true" />
       <div id="like-btn-container">
-  <button id="like-btn" aria-pressed="false" aria-describedby="like-count">🦈 Like</button>
-  <button id="message-btn" type="button" aria-label="Share this random fact">💬 Message</button>
-  <span id="like-count" aria-live="polite" aria-atomic="true" style="display:none;">Likes: 0</span>
-</div>
-      <div id="random-btns" style="margin-top:1.5rem;">
-        <button id="random-btn" type="button" aria-label="Show a random shark fact">🎲 Random Fact</button>
-        <button id="back-btn" type="button" style="display:none;" aria-label="Back to today's fact">⬅️ Back to Today</button>
+        <button id="like-btn" aria-pressed="false" aria-describedby="like-count" tabindex="0">🦈 Like</button>
+        <button id="message-btn" type="button" aria-label="Share this random fact" tabindex="0">💬 Message</button>
+        <span id="like-count" aria-live="polite" aria-atomic="true" class="invisible">Likes: 0</span>
       </div>
+      <div id="random-btns">
+        <button id="random-btn" type="button" aria-label="Show a random shark fact" tabindex="0">🎲 Random Fact</button>
+        <button id="back-btn" type="button" style="display:none;" aria-label="Back to today's fact" tabindex="0">⬅️ Back to Today</button>
+      </div>
+      <div id="toast" role="status" aria-live="polite"></div>
     </section>
   </main>
 

@@ -1,3 +1,5 @@
+console.log('🦈 Welcome to Shark Facts! Sharks are FIN-tastic!');
+
 document.addEventListener("DOMContentLoaded", () => {
   const facts = [
     { date: "15th May", fact: "The whale shark is the largest fish in the world, growing up to 40 feet long!", image: "images/whale-shark-1.jpg" },
@@ -11,18 +13,35 @@ document.addEventListener("DOMContentLoaded", () => {
     { date: "23rd May", fact: "Sharks can go weeks or even months without eating, depending on the species and their environment!", image: "images/shark-hunting.jpg" }
   ];
 
-  let randomFacts = [];
+  let randomFacts = [
+    "Some sharks glow in the dark! 🌟",
+    "Sharks have a sixth sense that detects electricity!",
+    "A group of sharks is called a shiver. 🦈🦈🦈",
+    "Sharks lose thousands of teeth in their lifetime.",
+    "Some sharks can live to be over 100 years old!",
+    "Sharks have been around longer than trees.",
+    "The smallest shark is only 8 inches long!",
+    "Sharks can replace a lost tooth in a week.",
+    "Sharks are important for healthy oceans!"
+  ];
   let randomOrder = [];
   let randomIndex = 0;
-  let randomFactsLoaded = false;
 
   const likeBtn = document.getElementById('like-btn');
   const likeCountSpan = document.getElementById('like-count');
   const likeSound = document.getElementById('like-sound');
   const randomBtn = document.getElementById('random-btn');
-  const backBtn = document.getElementById('back-btn');
+  const archiveBtn = document.getElementById('archive-btn');
   const messageBtn = document.getElementById('message-btn');
   const toast = document.getElementById('toast');
+  const archiveReturnBtn = document.getElementById('archive-return-btn');
+  const archiveReturnBtns = document.getElementById('archive-return-btns');
+  const sharkFinAnim = document.getElementById('shark-fin-animation');
+
+  let todayIndex = getTodayFactIndex();
+  let showingRandom = false;
+  let showingArchive = false;
+  let archiveIndex = null;
 
   function getTodayFormattedDate() {
     const d = new Date();
@@ -32,28 +51,29 @@ document.addEventListener("DOMContentLoaded", () => {
     const suffix = (n) => (n > 3 && n < 21) ? "th" : ["st","nd","rd"][n % 10 - 1] || "th";
     return `${day}${suffix(day)} ${month}`;
   }
+  function getTodayFactIndex() {
+    const today = getTodayFormattedDate();
+    let idx = facts.findIndex(f => f.date === today);
+    return idx < 0 ? 0 : idx;
+  }
 
   function getLikeStorageKey(factIndex, isRandom) {
     return isRandom ? `sharkfact-liked-random-${factIndex}` : `sharkfact-liked-${factIndex}`;
   }
-
   function hasLikedToday(factIndex, isRandom) {
     const key = getLikeStorageKey(factIndex, isRandom);
     const storedDate = localStorage.getItem(key);
     const today = new Date().toISOString().slice(0,10);
     return storedDate === today;
   }
-
   function markLikedToday(factIndex, isRandom) {
     const key = getLikeStorageKey(factIndex, isRandom);
     const today = new Date().toISOString().slice(0,10);
     localStorage.setItem(key, today);
   }
-
   function getLikesCount(factIndex, isRandom) {
     return parseInt(localStorage.getItem(isRandom ? `sharkfact-likes-random-${factIndex}` : `sharkfact-likes-${factIndex}`)) || 0;
   }
-
   function setLikesCount(factIndex, count, isRandom) {
     localStorage.setItem(isRandom ? `sharkfact-likes-random-${factIndex}` : `sharkfact-likes-${factIndex}`, count);
   }
@@ -67,65 +87,90 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 1400);
   }
 
+  function playSharkFinAnimation() {
+    sharkFinAnim.innerHTML = '<div class="fin"><div class="fin-shape"></div></div>';
+    sharkFinAnim.classList.remove('animate');
+    void sharkFinAnim.offsetWidth;
+    sharkFinAnim.classList.add('animate');
+    setTimeout(() => {
+      sharkFinAnim.classList.remove('animate');
+      sharkFinAnim.innerHTML = '';
+    }, 1200);
+  }
+
   function displayFact(index) {
-    const fact = facts[index];
-    document.getElementById('fact-title').textContent = `Shark Fact for ${fact.date}`;
-    document.getElementById('fact-text').textContent = fact.fact;
+    showingRandom = false;
+    showingArchive = false;
+    archiveIndex = null;
+    archiveReturnBtns.style.display = "none";
+    document.getElementById('fact-title').textContent = `Shark Fact for ${facts[index].date}`;
+    document.getElementById('fact-text').innerHTML = `<span class="did-you-know">Did you know?</span> ${facts[index].fact}`;
     const img = document.getElementById('shark-img');
-    img.src = fact.image;
-    img.alt = fact.fact;
+    img.src = facts[index].image;
+    img.alt = facts[index].fact;
 
     if (hasLikedToday(index, false)) {
-      likeBtn.disabled = true;
       likeBtn.setAttribute('aria-pressed', 'true');
       likeBtn.classList.add('gold');
     } else {
-      likeBtn.disabled = false;
       likeBtn.setAttribute('aria-pressed', 'false');
       likeBtn.classList.remove('gold');
     }
-
-    const likes = getLikesCount(index, false);
-    likeCountSpan.textContent = `Likes: ${likes}`;
-    if (likes > 0) {
-      likeCountSpan.classList.remove('invisible');
-    } else {
-      likeCountSpan.classList.add('invisible');
-    }
-
-    messageBtn.disabled = true;
+    likeBtn.disabled = false;
+    likeBtn.style.cursor = "pointer";
+    likeCountSpan.textContent = `Likes: ${getLikesCount(index, false)}`;
+    messageBtn.disabled = false;
+    messageBtn.style.cursor = "pointer";
+    randomBtn.textContent = "View Random Fact";
   }
 
   function displayRandomFact(index) {
-    const factText = randomFacts[randomOrder[index]];
+    showingRandom = true;
+    showingArchive = false;
+    archiveIndex = null;
+    archiveReturnBtns.style.display = "flex";
     document.getElementById('fact-title').textContent = `Random Shark Fact`;
-    document.getElementById('fact-text').textContent = factText;
+    document.getElementById('fact-text').innerHTML = `<span class="did-you-know">Did you know?</span> ${randomFacts[randomOrder[index]]}`;
     const img = document.getElementById('shark-img');
     img.src = "images/random.jpg";
-    img.alt = factText;
+    img.alt = randomFacts[randomOrder[index]];
 
     if (hasLikedToday(randomOrder[index], true)) {
-      likeBtn.disabled = true;
       likeBtn.setAttribute('aria-pressed', 'true');
       likeBtn.classList.add('gold');
     } else {
-      likeBtn.disabled = false;
       likeBtn.setAttribute('aria-pressed', 'false');
       likeBtn.classList.remove('gold');
     }
-
-    const likes = getLikesCount(randomOrder[index], true);
-    likeCountSpan.textContent = `Likes: ${likes}`;
-    if (likes > 0) {
-      likeCountSpan.classList.remove('invisible');
-    } else {
-      likeCountSpan.classList.add('invisible');
-    }
-
+    likeBtn.disabled = false;
+    likeBtn.style.cursor = "pointer";
+    likeCountSpan.textContent = `Likes: ${getLikesCount(randomOrder[index], true)}`;
     messageBtn.disabled = false;
+    messageBtn.style.cursor = "pointer";
+    randomBtn.textContent = "Next Random Fact";
   }
 
-  // Fisher-Yates shuffle
+  function displayArchiveFact(index) {
+    showingRandom = false;
+    showingArchive = true;
+    archiveIndex = index;
+    archiveReturnBtns.style.display = "flex";
+    document.getElementById('fact-title').textContent = `Shark Fact for ${facts[index].date}`;
+    document.getElementById('fact-text').innerHTML = `<span class="did-you-know">Did you know?</span> ${facts[index].fact}`;
+    const img = document.getElementById('shark-img');
+    img.src = facts[index].image;
+    img.alt = facts[index].fact;
+
+    likeBtn.disabled = true;
+    likeBtn.setAttribute('aria-pressed', 'false');
+    likeBtn.classList.remove('gold');
+    likeBtn.style.cursor = "not-allowed";
+    likeCountSpan.textContent = `Likes: ${getLikesCount(index, false)}`;
+    messageBtn.disabled = true;
+    messageBtn.style.cursor = "not-allowed";
+    randomBtn.textContent = "View Random Fact";
+  }
+
   function shuffleArray(arr) {
     for (let i = arr.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -134,37 +179,40 @@ document.addEventListener("DOMContentLoaded", () => {
     return arr;
   }
 
-  let todayIndex = facts.findIndex(f => f.date === getTodayFormattedDate());
-  if (todayIndex < 0) todayIndex = 0;
-  let currentIndex = todayIndex;
-  let showingRandom = false;
-
+  // Initial display
+  randomOrder = shuffleArray([...Array(randomFacts.length).keys()]);
   displayFact(todayIndex);
 
   likeBtn.addEventListener('click', () => {
+    if (showingArchive) return;
+
     if (showingRandom) {
       const idx = randomOrder[randomIndex];
-      if (hasLikedToday(idx, true)) return;
+      if (hasLikedToday(idx, true)) {
+        showToast("You already liked this random fact today!");
+        return;
+      }
       markLikedToday(idx, true);
       let likes = getLikesCount(idx, true);
       likes++;
       setLikesCount(idx, likes, true);
       likeBtn.classList.add('gold');
-      likeBtn.disabled = true;
       likeBtn.setAttribute('aria-pressed', 'true');
       likeCountSpan.textContent = `Likes: ${likes}`;
-      likeCountSpan.classList.remove('invisible');
-    } else {
-      if (hasLikedToday(currentIndex, false)) return;
-      markLikedToday(currentIndex, false);
-      let likes = getLikesCount(currentIndex, false);
+      playSharkFinAnimation();
+    } else if (!showingArchive) {
+      if (hasLikedToday(todayIndex, false)) {
+        showToast("You already liked today's fact!");
+        return;
+      }
+      markLikedToday(todayIndex, false);
+      let likes = getLikesCount(todayIndex, false);
       likes++;
-      setLikesCount(currentIndex, likes, false);
+      setLikesCount(todayIndex, likes, false);
       likeBtn.classList.add('gold');
-      likeBtn.disabled = true;
       likeBtn.setAttribute('aria-pressed', 'true');
       likeCountSpan.textContent = `Likes: ${likes}`;
-      likeCountSpan.classList.remove('invisible');
+      playSharkFinAnimation();
     }
     if (likeSound) {
       likeSound.currentTime = 0;
@@ -173,50 +221,59 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   randomBtn.addEventListener('click', () => {
-    if (!randomFactsLoaded) {
-      fetch('random_fact.json')
-        .then(res => res.json())
-        .then(data => {
-          randomFacts = data;
-          randomOrder = shuffleArray([...Array(randomFacts.length).keys()]);
-          randomIndex = 0;
-          randomFactsLoaded = true;
-          showingRandom = true;
-          displayRandomFact(randomIndex);
-          backBtn.style.display = 'inline-block';
-          randomBtn.textContent = "Next Random Fact";
-        })
-        .catch(() => {
-          alert("Couldn't load random facts.");
-        });
-    } else {
-      randomIndex++;
-      if (randomIndex >= randomOrder.length) {
-        showToast("You've seen all the random facts! Reshuffling...");
-        randomOrder = shuffleArray([...Array(randomFacts.length).keys()]);
-        randomIndex = 0;
-      }
-      showingRandom = true;
+    if (!showingRandom) {
+      randomIndex = 0;
       displayRandomFact(randomIndex);
-      backBtn.style.display = 'inline-block';
-      randomBtn.textContent = "Next Random Fact";
+      return;
     }
+    randomIndex++;
+    if (randomIndex >= randomOrder.length) {
+      showToast("You've seen all the random facts! Reshuffling...");
+      randomOrder = shuffleArray([...Array(randomFacts.length).keys()]);
+      randomIndex = 0;
+    }
+    displayRandomFact(randomIndex);
   });
 
-  backBtn.addEventListener('click', () => {
-    showingRandom = false;
-    displayFact(todayIndex);
-    backBtn.style.display = 'none';
-    randomBtn.textContent = "🎲 Random Fact";
+  archiveBtn.addEventListener('click', () => {
+    const todayIdx = getTodayFactIndex();
+    let html = `<div id="archive-modal-content"><h2>Fact Archive</h2><ul id="archive-list">`;
+    facts.forEach((f, i) => {
+      const isPast = i < todayIdx;
+      html += `<li>
+        <span><strong>${f.date}:</strong> ${f.fact}</span>
+        <button ${isPast ? '' : 'disabled'} data-archive-idx="${i}">View</button>
+      </li>`;
+    });
+    html += `</ul><button id="close-archive">Close</button></div>`;
+    const modal = document.createElement('div');
+    modal.id = 'archive-modal';
+    modal.innerHTML = html;
+    document.body.appendChild(modal);
+
+    modal.querySelectorAll('button[data-archive-idx]').forEach(btn => {
+      btn.onclick = (e) => {
+        const idx = parseInt(btn.getAttribute('data-archive-idx'));
+        displayArchiveFact(idx);
+        document.body.removeChild(modal);
+      };
+    });
+    modal.querySelector('#close-archive').onclick = () => document.body.removeChild(modal);
+    modal.addEventListener('click', e => {
+      if (e.target === modal) document.body.removeChild(modal);
+    });
   });
 
-  // Share/copy for message button
+  archiveReturnBtn.addEventListener('click', () => {
+    displayFact(getTodayFactIndex());
+  });
+
   messageBtn.addEventListener('click', () => {
     if (messageBtn.disabled) return;
     const factText = document.getElementById('fact-text').textContent;
     if (navigator.share) {
       navigator.share({
-        title: "Random Shark Fact",
+        title: "Shark Fact",
         text: factText,
         url: window.location.href
       }).catch(() => {});

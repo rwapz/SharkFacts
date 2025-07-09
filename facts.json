@@ -1,14 +1,18 @@
 [
   {
-    "fact": "Sharks existed before trees.",
+    "fact": "Whale sharks can grow as long as a school bus.",
     "image": "images/shark1.jpg"
   },
   {
-    "fact": "Some sharks can live up to 500 years.",
+    "fact": "Some species of sharks can glow in the dark.",
     "image": "images/shark2.jpg"
   },
   {
-    "fact": "Whale sharks are the largest fish in the world.",
+    "fact": "A group of sharks is called a 'shiver.'",
     "image": "images/shark3.jpg"
+  },
+  {
+    "fact": "The fastest shark is the shortfin mako, which can reach speeds up to 45 mph.",
+    "image": "images/shark4.jpg"
   }
 ]

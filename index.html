@@ -1,52 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Daily Shark Facts</title>
-  <link href="https://fonts.googleapis.com/css2?family=Merriweather&display=swap" rel="stylesheet" />
-  <!-- Split CSS for maintainability -->
-  <link rel="stylesheet" href="core.css" />
-  <link rel="stylesheet" href="header-footer.css" />
-  <link rel="stylesheet" href="fact-content.css" />
-  <link rel="stylesheet" href="buttons.css" />
-  <link rel="stylesheet" href="modals.css" />
-  <link rel="stylesheet" href="animation.css" />
-  <link rel="stylesheet" href="responsive.css" />
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    <span class="shark-emoji" aria-hidden="true">🦈</span>
-    <span class="header-title">Shark Facts</span>
-  </header>
-  <main>
-    <section id="fact-container" aria-label="Daily shark fact">
-      <h2 id="fact-title" tabindex="0">Loading...</h2>
-      <div class="image-container" aria-label="Image of shark">
-        <img id="shark-img" alt="Shark Image" loading="lazy" />
-      </div>
-      <p id="fact-text" aria-live="polite" tabindex="0"><span class="did-you-know">Did you know?</span> Loading fact...</p>
-      <div id="main-btns">
-        <button id="like-btn" aria-pressed="false" aria-describedby="like-count" tabindex="0">🦈 Like</button>
-        <button id="message-btn" type="button" aria-label="Share this fact" tabindex="0">💬 Message</button>
-        <span id="like-count" aria-live="polite" aria-atomic="true">Likes: 0</span>
-      </div>
-      <div id="nav-btns">
-        <button id="random-btn" type="button" aria-label="Show a random shark fact" tabindex="0">🎲 Random Fact</button>
-        <button id="archive-btn" type="button" aria-label="View fact archive" tabindex="0">📅 Archive</button>
-      </div>
-      <div id="archive-return-btns" style="display:none;">
-        <button id="archive-return-btn" type="button" aria-label="Return to today's fact" tabindex="0">⬅️ Back to Today</button>
-      </div>
-      <div id="toast" role="status" aria-live="polite"></div>
-    </section>
-  </main>
-  <div id="shark-fin-animation" aria-hidden="true"></div>
-  <audio id="like-sound" src="sounds/like-sound.wav" preload="auto"></audio>
-  <footer>
-    <span class="footer-shark" aria-hidden="true">🦈</span>
-    <span class="footer-text">Made with love for sharks!</span>
-  </footer>
+  <div class="container">
+    <h1>🦈 Daily Shark Fact</h1>
+    <div id="fact"></div>
+    <img id="shark-image" src="" alt="Shark Image" style="display:none;">
+  </div>
+
   <script src="script.js"></script>
 </body>
 </html>

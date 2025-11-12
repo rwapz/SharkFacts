@@ -14,5 +14,13 @@
   {
     "fact": "The fastest shark is the shortfin mako, which can reach speeds up to 45 mph.",
     "image": "images/shark4.jpg"
+  },
+  {
+    "fact": "Sharks have been around for over 400 million years.",
+    "image": "images/shark5.jpg"
+  },
+  {
+    "fact": "The great white shark can detect a drop of blood in 25 gallons of water.",
+    "image": "images/shark6.jpg"
   }
 ]

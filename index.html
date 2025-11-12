@@ -1,16 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Daily Shark Facts</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="container">
     <h1>🦈 Daily Shark Fact</h1>
-    <div id="fact"></div>
-    <img id="shark-image" src="" alt="Shark Image" style="display:none;">
+
+    <div id="fact" role="status" aria-live="polite"></div>
+    <p id="fact-date" aria-hidden="true"></p>
+
+    <div class="controls">
+      <button id="next-fact" aria-label="Show next fact">Next fact</button>
+      <button id="random-fact" aria-label="Show a random fact">Random</button>
+    </div>
+
+    <img id="shark-image" src="" alt="Shark image" />
   </div>
 
   <script src="script.js"></script>

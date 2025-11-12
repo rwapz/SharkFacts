@@ -7,18 +7,52 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <div class="background-animation"></div>
+  
   <div class="container">
-    <h1>🦈 Daily Shark Fact</h1>
+    <h1 class="title">🦈 Daily Shark Fact</h1>
 
-    <div id="fact" role="status" aria-live="polite"></div>
-    <p id="fact-date" aria-hidden="true"></p>
-
-    <div class="controls">
-      <button id="next-fact" aria-label="Show next fact">Next fact</button>
-      <button id="random-fact" aria-label="Show a random fact">Random</button>
+    <div class="fact-card">
+      <div id="fact" role="status" aria-live="polite"></div>
+      <p id="fact-date" aria-hidden="true"></p>
     </div>
 
-    <img id="shark-image" src="" alt="Shark image" />
+    <img id="shark-image" src="" alt="Shark image" class="shark-image" />
+
+    <div class="controls">
+      <button id="next-fact" class="btn btn-primary" aria-label="Show next fact">
+        <span>→</span> Next
+      </button>
+      <button id="random-fact" class="btn btn-secondary" aria-label="Show a random fact">
+        <span>🎲</span> Random
+      </button>
+      <button id="add-favorite" class="btn btn-gold" aria-label="Add to favorites">
+        <span>☆</span> Favorite
+      </button>
+      <button id="share-fact" class="btn btn-tertiary" aria-label="Share this fact">
+        <span>📤</span> Share
+      </button>
+      <button id="view-favorites" class="btn btn-favorites" aria-label="View favorites">
+        <span>📋</span> View All
+      </button>
+    </div>
+  </div>
+
+  <!-- Modal Popup -->
+  <div id="favorites-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>⭐ My Favorite Facts</h2>
+        <button class="modal-close" id="modal-close" aria-label="Close modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <ul id="modal-favorite-list" class="modal-favorite-list"></ul>
+      </div>
+      <div class="modal-footer">
+        <button id="modal-clear" class="btn btn-small">Clear All Favorites</button>
+        <button id="modal-close-btn" class="btn btn-primary">Close</button>
+      </div>
+    </div>
   </div>
 
   <script src="script.js"></script>
